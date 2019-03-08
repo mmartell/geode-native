@@ -30,7 +30,7 @@ namespace client {
 class DataOutput;
 class DataInput;
 
-namespace internal {
+namespace internal_ {
 
 class APACHE_GEODE_EXPORT DataSerializableFixedId
     : public virtual Serializable {
@@ -53,7 +53,7 @@ class APACHE_GEODE_EXPORT DataSerializableFixedId_t
   DSFid getDSFID() const final { return _DSFID; }
 };
 
-}  // namespace internal
+}  // namespace internal_
 }  // namespace client
 }  // namespace geode
 }  // namespace apache

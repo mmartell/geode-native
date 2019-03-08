@@ -29,7 +29,7 @@ namespace client {
 class DataOutput;
 class DataInput;
 
-namespace internal {
+namespace internal_ {
 
 class APACHE_GEODE_EXPORT DataSerializableInternal
     : public virtual Serializable {
@@ -39,7 +39,7 @@ class APACHE_GEODE_EXPORT DataSerializableInternal
   virtual void fromData(DataInput& dataInput) = 0;
 };
 
-}  // namespace internal
+}  // namespace internal_
 }  // namespace client
 }  // namespace geode
 }  // namespace apache

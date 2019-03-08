@@ -21,7 +21,7 @@
 namespace apache {
 namespace geode {
 namespace client {
-namespace internal {
+namespace internal_ {
 
 enum class InternalId : int8_t {
   // Do not use IDs 7 and 8 which are used by .NET
@@ -32,7 +32,7 @@ enum class InternalId : int8_t {
 
 };
 
-}  // namespace internal
+}  // namespace internal_
 }  // namespace client
 }  // namespace geode
 }  // namespace apache

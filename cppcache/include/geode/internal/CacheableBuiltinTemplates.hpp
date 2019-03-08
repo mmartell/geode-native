@@ -31,7 +31,7 @@
 namespace apache {
 namespace geode {
 namespace client {
-namespace internal {
+namespace internal_ {
 
 /**
  * Template class for primitive key types.
@@ -208,7 +208,7 @@ class CacheableContainerPrimitive : public DataSerializablePrimitive,
   }
 };
 
-}  // namespace internal
+}  // namespace internal_
 }  // namespace client
 }  // namespace geode
 }  // namespace apache

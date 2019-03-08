@@ -25,7 +25,7 @@
 namespace apache {
 namespace geode {
 namespace client {
-namespace internal {
+namespace internal_ {
 
 template <typename TObj>
 inline bool equals(const TObj& x, const TObj& y) {
@@ -73,7 +73,7 @@ inline int32_t hashcode(const double value) {
   v.d = value;
   return hashcode(v.u);
 }
-}  // namespace internal
+}  // namespace internal_
 }  // namespace client
 }  // namespace geode
 }  // namespace apache
