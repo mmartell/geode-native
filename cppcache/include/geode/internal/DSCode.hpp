@@ -21,7 +21,7 @@
 namespace apache {
 namespace geode {
 namespace client {
-namespace internal_ {
+namespace internalXYZ {
 
 enum class DSCode : int32_t {
   FixedIDDefault = 0,
@@ -82,7 +82,7 @@ enum class DSCode : int32_t {
   InterestResultPolicy = 37,
 };
 
-}  // namespace internal_
+}  // namespace internalXYZ
 }  // namespace client
 }  // namespace geode
 }  // namespace apache

@@ -30,7 +30,7 @@
 namespace apache {
 namespace geode {
 namespace client {
-namespace internal_ {
+namespace internalXYZ {
 
 template <class _T>
 struct dereference_hash;
@@ -148,7 +148,7 @@ struct geode_hash<std::string> {
   }
 };
 
-}  // namespace internal_
+}  // namespace internalXYZ
 }  // namespace client
 }  // namespace geode
 }  // namespace apache

@@ -41,7 +41,7 @@ namespace client {
  * value.
  */
 class APACHE_GEODE_EXPORT CacheableDate
-    : public internal::DataSerializablePrimitive,
+    : public internalXYZ::DataSerializablePrimitive,
       public CacheableKey {
  private:
   /**

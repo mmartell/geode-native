@@ -37,7 +37,7 @@ namespace apache {
 namespace geode {
 namespace client {
 
-using apache::geode::internal::chrono::duration::to_string;
+using apache::geode::internalXYZ::chrono::duration::to_string;
 
 class DataInput;
 class DataOutput;
@@ -49,7 +49,7 @@ class CacheableString;
  * the property; value, the value of the property.
  */
 class APACHE_GEODE_EXPORT Properties
-    : public internal::DataSerializablePrimitive {
+    : public internalXYZ::DataSerializablePrimitive {
  public:
   class Visitor {
    public:
@@ -149,7 +149,7 @@ class APACHE_GEODE_EXPORT Properties
 
   void fromData(DataInput& input) override;
 
-  internal::DSCode getDsCode() const override;
+  internalXYZ::DSCode getDsCode() const override;
 
  private:
   HashMapOfCacheable m_map;

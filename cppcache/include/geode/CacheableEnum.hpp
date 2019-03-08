@@ -51,7 +51,7 @@ class Serializable;
  */
 
 class APACHE_GEODE_EXPORT CacheableEnum
-    : public internal::DataSerializablePrimitive,
+    : public internalXYZ::DataSerializablePrimitive,
       public CacheableKey {
  private:
   std::string m_enumClassName;

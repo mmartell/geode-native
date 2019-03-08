@@ -102,8 +102,8 @@ class APACHE_GEODE_EXPORT CacheableKey : public virtual Cacheable {
   void operator=(const CacheableKey& other);
 };
 
-using apache::geode::client::internal::dereference_equal_to;
-using apache::geode::client::internal::dereference_hash;
+using apache::geode::client::internalXYZ::dereference_equal_to;
+using apache::geode::client::internalXYZ::dereference_hash;
 
 using HashMapOfCacheable =
     std::unordered_map<std::shared_ptr<CacheableKey>,

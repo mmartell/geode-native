@@ -74,7 +74,7 @@ class PersistenceManager;
  * @see Region::getAttributes
  */
 class APACHE_GEODE_EXPORT RegionAttributes
-    : public internal::DataSerializableInternal {
+    : public internalXYZ::DataSerializableInternal {
   /**
    * @brief public static methods
    */

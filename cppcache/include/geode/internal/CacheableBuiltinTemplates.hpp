@@ -31,7 +31,7 @@
 namespace apache {
 namespace geode {
 namespace client {
-namespace internal_ {
+namespace internalXYZ {
 
 /**
  * Template class for primitive key types.
@@ -64,12 +64,12 @@ class CacheableKeyPrimitive : public virtual DataSerializablePrimitive,
 
   std::string toString() const override { return std::to_string(value_); }
 
-  int32_t hashcode() const override { return internal::hashcode(value_); }
+  int32_t hashcode() const override { return internalXYZ::hashcode(value_); }
 
   bool operator==(const CacheableKey& other) const override {
     if (auto&& otherPrimitive =
             dynamic_cast<const CacheableKeyPrimitive*>(&other)) {
-      return internal::equals(value_, otherPrimitive->value_);
+      return internalXYZ::equals(value_, otherPrimitive->value_);
     }
 
     return false;
@@ -77,7 +77,7 @@ class CacheableKeyPrimitive : public virtual DataSerializablePrimitive,
 
   /** Return true if this key matches other key value. */
   inline bool operator==(const TObj other) const {
-    return internal::equals(value_, other);
+    return internalXYZ::equals(value_, other);
   }
 
   virtual size_t objectSize() const override {
@@ -208,7 +208,7 @@ class CacheableContainerPrimitive : public DataSerializablePrimitive,
   }
 };
 
-}  // namespace internal_
+}  // namespace internalXYZ
 }  // namespace client
 }  // namespace geode
 }  // namespace apache

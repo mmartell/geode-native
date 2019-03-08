@@ -32,14 +32,14 @@ namespace apache {
 namespace geode {
 namespace client {
 
-using internal::DSCode;
+using internalXYZ::DSCode;
 
 /**
  * Implement a immutable C string wrapper that can serve as a distributable
  * key object for caching as well as being a string value.
  */
 class APACHE_GEODE_EXPORT CacheableString
-    : public internal::DataSerializablePrimitive,
+    : public internalXYZ::DataSerializablePrimitive,
       public CacheableKey {
  protected:
   std::string m_str;

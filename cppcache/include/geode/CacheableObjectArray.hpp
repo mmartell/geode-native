@@ -45,7 +45,7 @@ class Serializable;
  */
 
 class APACHE_GEODE_EXPORT CacheableObjectArray
-    : public internal::DataSerializablePrimitive,
+    : public internalXYZ::DataSerializablePrimitive,
       public std::vector<std::shared_ptr<Cacheable>> {
  public:
   /** Constructor, used for deserialization. */
@@ -71,8 +71,8 @@ class APACHE_GEODE_EXPORT CacheableObjectArray
     return std::make_shared<CacheableObjectArray>();
   }
 
-  internal::DSCode getDsCode() const override {
-    return internal::DSCode::CacheableObjectArray;
+  internalXYZ::DSCode getDsCode() const override {
+    return internalXYZ::DSCode::CacheableObjectArray;
   }
 
   /**

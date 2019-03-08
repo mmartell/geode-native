@@ -21,7 +21,7 @@
 namespace apache {
 namespace geode {
 namespace client {
-namespace internal_ {
+namespace internalXYZ {
 
 enum class DSFid : int32_t {
   ClientHealthStats = -126,
@@ -48,7 +48,7 @@ enum class DSFid : int32_t {
   DiskStoreId = 2133
 };
 
-}  // namespace internal_
+}  // namespace internalXYZ
 }  // namespace client
 }  // namespace geode
 }  // namespace apache

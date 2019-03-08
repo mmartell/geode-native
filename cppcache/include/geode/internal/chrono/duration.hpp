@@ -29,7 +29,7 @@
 
 namespace apache {
 namespace geode {
-namespace internal_ {
+namespace internalXYZ {
 namespace chrono {
 namespace duration {
 
@@ -158,7 +158,7 @@ inline std::string to_string(
 
 }  // namespace duration
 }  // namespace chrono
-}  // namespace internal_
+}  // namespace internalXYZ
 }  // namespace geode
 }  // namespace apache
 

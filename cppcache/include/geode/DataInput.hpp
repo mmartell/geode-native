@@ -295,21 +295,21 @@ class APACHE_GEODE_EXPORT DataInput {
   template <class CharT = char, class... Tail>
   inline std::basic_string<CharT, Tail...> readString() {
     std::basic_string<CharT, Tail...> value;
-    auto type = static_cast<internal::DSCode>(read());
+    auto type = static_cast<internalXYZ::DSCode>(read());
     switch (type) {
-      case internal::DSCode::CacheableString:
+      case internalXYZ::DSCode::CacheableString:
         readJavaModifiedUtf8(value);
         break;
-      case internal::DSCode::CacheableStringHuge:
+      case internalXYZ::DSCode::CacheableStringHuge:
         readUtf16Huge(value);
         break;
-      case internal::DSCode::CacheableASCIIString:
+      case internalXYZ::DSCode::CacheableASCIIString:
         readAscii(value);
         break;
-      case internal::DSCode::CacheableASCIIStringHuge:
+      case internalXYZ::DSCode::CacheableASCIIStringHuge:
         readAsciiHuge(value);
         break;
-      case internal::DSCode::CacheableNullString:
+      case internalXYZ::DSCode::CacheableNullString:
         // empty string
         break;
       // TODO: What's the right response here?
