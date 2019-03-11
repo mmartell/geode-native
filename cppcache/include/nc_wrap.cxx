@@ -7,3 +7,2743 @@
  * changes to this file unless you know what you are doing--modify the SWIG
  * interface file instead.
  * ----------------------------------------------------------------------------- */
+
+
+#ifndef SWIGCSHARP
+#define SWIGCSHARP
+#endif
+
+
+
+#ifdef __cplusplus
+/* SwigValueWrapper is described in swig.swg */
+template<typename T> class SwigValueWrapper {
+  struct SwigMovePointer {
+    T *ptr;
+    SwigMovePointer(T *p) : ptr(p) { }
+    ~SwigMovePointer() { delete ptr; }
+    SwigMovePointer& operator=(SwigMovePointer& rhs) { T* oldptr = ptr; ptr = 0; delete oldptr; ptr = rhs.ptr; rhs.ptr = 0; return *this; }
+  } pointer;
+  SwigValueWrapper& operator=(const SwigValueWrapper<T>& rhs);
+  SwigValueWrapper(const SwigValueWrapper<T>& rhs);
+public:
+  SwigValueWrapper() : pointer(0) { }
+  SwigValueWrapper& operator=(const T& t) { SwigMovePointer tmp(new T(t)); pointer = tmp; return *this; }
+  operator T&() const { return *pointer.ptr; }
+  T *operator&() { return pointer.ptr; }
+};
+
+template <typename T> T SwigValueInit() {
+  return T();
+}
+#endif
+
+/* -----------------------------------------------------------------------------
+ *  This section contains generic SWIG labels for method/variable
+ *  declarations/attributes, and other compiler dependent labels.
+ * ----------------------------------------------------------------------------- */
+
+/* template workaround for compilers that cannot correctly implement the C++ standard */
+#ifndef SWIGTEMPLATEDISAMBIGUATOR
+# if defined(__SUNPRO_CC) && (__SUNPRO_CC <= 0x560)
+#  define SWIGTEMPLATEDISAMBIGUATOR template
+# elif defined(__HP_aCC)
+/* Needed even with `aCC -AA' when `aCC -V' reports HP ANSI C++ B3910B A.03.55 */
+/* If we find a maximum version that requires this, the test would be __HP_aCC <= 35500 for A.03.55 */
+#  define SWIGTEMPLATEDISAMBIGUATOR template
+# else
+#  define SWIGTEMPLATEDISAMBIGUATOR
+# endif
+#endif
+
+/* inline attribute */
+#ifndef SWIGINLINE
+# if defined(__cplusplus) || (defined(__GNUC__) && !defined(__STRICT_ANSI__))
+#   define SWIGINLINE inline
+# else
+#   define SWIGINLINE
+# endif
+#endif
+
+/* attribute recognised by some compilers to avoid 'unused' warnings */
+#ifndef SWIGUNUSED
+# if defined(__GNUC__)
+#   if !(defined(__cplusplus)) || (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4))
+#     define SWIGUNUSED __attribute__ ((__unused__))
+#   else
+#     define SWIGUNUSED
+#   endif
+# elif defined(__ICC)
+#   define SWIGUNUSED __attribute__ ((__unused__))
+# else
+#   define SWIGUNUSED
+# endif
+#endif
+
+#ifndef SWIG_MSC_UNSUPPRESS_4505
+# if defined(_MSC_VER)
+#   pragma warning(disable : 4505) /* unreferenced local function has been removed */
+# endif
+#endif
+
+#ifndef SWIGUNUSEDPARM
+# ifdef __cplusplus
+#   define SWIGUNUSEDPARM(p)
+# else
+#   define SWIGUNUSEDPARM(p) p SWIGUNUSED
+# endif
+#endif
+
+/* internal SWIG method */
+#ifndef SWIGINTERN
+# define SWIGINTERN static SWIGUNUSED
+#endif
+
+/* internal inline SWIG method */
+#ifndef SWIGINTERNINLINE
+# define SWIGINTERNINLINE SWIGINTERN SWIGINLINE
+#endif
+
+/* exporting methods */
+#if defined(__GNUC__)
+#  if (__GNUC__ >= 4) || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
+#    ifndef GCC_HASCLASSVISIBILITY
+#      define GCC_HASCLASSVISIBILITY
+#    endif
+#  endif
+#endif
+
+#ifndef SWIGEXPORT
+# if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
+#   if defined(STATIC_LINKED)
+#     define SWIGEXPORT
+#   else
+#     define SWIGEXPORT __declspec(dllexport)
+#   endif
+# else
+#   if defined(__GNUC__) && defined(GCC_HASCLASSVISIBILITY)
+#     define SWIGEXPORT __attribute__ ((visibility("default")))
+#   else
+#     define SWIGEXPORT
+#   endif
+# endif
+#endif
+
+/* calling conventions for Windows */
+#ifndef SWIGSTDCALL
+# if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
+#   define SWIGSTDCALL __stdcall
+# else
+#   define SWIGSTDCALL
+# endif
+#endif
+
+/* Deal with Microsoft's attempt at deprecating C standard runtime functions */
+#if !defined(SWIG_NO_CRT_SECURE_NO_DEPRECATE) && defined(_MSC_VER) && !defined(_CRT_SECURE_NO_DEPRECATE)
+# define _CRT_SECURE_NO_DEPRECATE
+#endif
+
+/* Deal with Microsoft's attempt at deprecating methods in the standard C++ library */
+#if !defined(SWIG_NO_SCL_SECURE_NO_DEPRECATE) && defined(_MSC_VER) && !defined(_SCL_SECURE_NO_DEPRECATE)
+# define _SCL_SECURE_NO_DEPRECATE
+#endif
+
+/* Deal with Apple's deprecated 'AssertMacros.h' from Carbon-framework */
+#if defined(__APPLE__) && !defined(__ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES)
+# define __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES 0
+#endif
+
+/* Intel's compiler complains if a variable which was never initialised is
+ * cast to void, which is a common idiom which we use to indicate that we
+ * are aware a variable isn't used.  So we just silence that warning.
+ * See: https://github.com/swig/swig/issues/192 for more discussion.
+ */
+#ifdef __INTEL_COMPILER
+# pragma warning disable 592
+#endif
+
+
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
+
+/* Support for throwing C# exceptions from C/C++. There are two types: 
+ * Exceptions that take a message and ArgumentExceptions that take a message and a parameter name. */
+typedef enum {
+  SWIG_CSharpApplicationException,
+  SWIG_CSharpArithmeticException,
+  SWIG_CSharpDivideByZeroException,
+  SWIG_CSharpIndexOutOfRangeException,
+  SWIG_CSharpInvalidCastException,
+  SWIG_CSharpInvalidOperationException,
+  SWIG_CSharpIOException,
+  SWIG_CSharpNullReferenceException,
+  SWIG_CSharpOutOfMemoryException,
+  SWIG_CSharpOverflowException,
+  SWIG_CSharpSystemException
+} SWIG_CSharpExceptionCodes;
+
+typedef enum {
+  SWIG_CSharpArgumentException,
+  SWIG_CSharpArgumentNullException,
+  SWIG_CSharpArgumentOutOfRangeException
+} SWIG_CSharpExceptionArgumentCodes;
+
+typedef void (SWIGSTDCALL* SWIG_CSharpExceptionCallback_t)(const char *);
+typedef void (SWIGSTDCALL* SWIG_CSharpExceptionArgumentCallback_t)(const char *, const char *);
+
+typedef struct {
+  SWIG_CSharpExceptionCodes code;
+  SWIG_CSharpExceptionCallback_t callback;
+} SWIG_CSharpException_t;
+
+typedef struct {
+  SWIG_CSharpExceptionArgumentCodes code;
+  SWIG_CSharpExceptionArgumentCallback_t callback;
+} SWIG_CSharpExceptionArgument_t;
+
+static SWIG_CSharpException_t SWIG_csharp_exceptions[] = {
+  { SWIG_CSharpApplicationException, NULL },
+  { SWIG_CSharpArithmeticException, NULL },
+  { SWIG_CSharpDivideByZeroException, NULL },
+  { SWIG_CSharpIndexOutOfRangeException, NULL },
+  { SWIG_CSharpInvalidCastException, NULL },
+  { SWIG_CSharpInvalidOperationException, NULL },
+  { SWIG_CSharpIOException, NULL },
+  { SWIG_CSharpNullReferenceException, NULL },
+  { SWIG_CSharpOutOfMemoryException, NULL },
+  { SWIG_CSharpOverflowException, NULL },
+  { SWIG_CSharpSystemException, NULL }
+};
+
+static SWIG_CSharpExceptionArgument_t SWIG_csharp_exceptions_argument[] = {
+  { SWIG_CSharpArgumentException, NULL },
+  { SWIG_CSharpArgumentNullException, NULL },
+  { SWIG_CSharpArgumentOutOfRangeException, NULL }
+};
+
+static void SWIGUNUSED SWIG_CSharpSetPendingException(SWIG_CSharpExceptionCodes code, const char *msg) {
+  SWIG_CSharpExceptionCallback_t callback = SWIG_csharp_exceptions[SWIG_CSharpApplicationException].callback;
+  if ((size_t)code < sizeof(SWIG_csharp_exceptions)/sizeof(SWIG_CSharpException_t)) {
+    callback = SWIG_csharp_exceptions[code].callback;
+  }
+  callback(msg);
+}
+
+static void SWIGUNUSED SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpExceptionArgumentCodes code, const char *msg, const char *param_name) {
+  SWIG_CSharpExceptionArgumentCallback_t callback = SWIG_csharp_exceptions_argument[SWIG_CSharpArgumentException].callback;
+  if ((size_t)code < sizeof(SWIG_csharp_exceptions_argument)/sizeof(SWIG_CSharpExceptionArgument_t)) {
+    callback = SWIG_csharp_exceptions_argument[code].callback;
+  }
+  callback(msg, param_name);
+}
+
+
+#ifdef __cplusplus
+extern "C" 
+#endif
+SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionCallbacks_nc(
+                                                SWIG_CSharpExceptionCallback_t applicationCallback,
+                                                SWIG_CSharpExceptionCallback_t arithmeticCallback,
+                                                SWIG_CSharpExceptionCallback_t divideByZeroCallback, 
+                                                SWIG_CSharpExceptionCallback_t indexOutOfRangeCallback, 
+                                                SWIG_CSharpExceptionCallback_t invalidCastCallback,
+                                                SWIG_CSharpExceptionCallback_t invalidOperationCallback,
+                                                SWIG_CSharpExceptionCallback_t ioCallback,
+                                                SWIG_CSharpExceptionCallback_t nullReferenceCallback,
+                                                SWIG_CSharpExceptionCallback_t outOfMemoryCallback, 
+                                                SWIG_CSharpExceptionCallback_t overflowCallback, 
+                                                SWIG_CSharpExceptionCallback_t systemCallback) {
+  SWIG_csharp_exceptions[SWIG_CSharpApplicationException].callback = applicationCallback;
+  SWIG_csharp_exceptions[SWIG_CSharpArithmeticException].callback = arithmeticCallback;
+  SWIG_csharp_exceptions[SWIG_CSharpDivideByZeroException].callback = divideByZeroCallback;
+  SWIG_csharp_exceptions[SWIG_CSharpIndexOutOfRangeException].callback = indexOutOfRangeCallback;
+  SWIG_csharp_exceptions[SWIG_CSharpInvalidCastException].callback = invalidCastCallback;
+  SWIG_csharp_exceptions[SWIG_CSharpInvalidOperationException].callback = invalidOperationCallback;
+  SWIG_csharp_exceptions[SWIG_CSharpIOException].callback = ioCallback;
+  SWIG_csharp_exceptions[SWIG_CSharpNullReferenceException].callback = nullReferenceCallback;
+  SWIG_csharp_exceptions[SWIG_CSharpOutOfMemoryException].callback = outOfMemoryCallback;
+  SWIG_csharp_exceptions[SWIG_CSharpOverflowException].callback = overflowCallback;
+  SWIG_csharp_exceptions[SWIG_CSharpSystemException].callback = systemCallback;
+}
+
+#ifdef __cplusplus
+extern "C" 
+#endif
+SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionArgumentCallbacks_nc(
+                                                SWIG_CSharpExceptionArgumentCallback_t argumentCallback,
+                                                SWIG_CSharpExceptionArgumentCallback_t argumentNullCallback,
+                                                SWIG_CSharpExceptionArgumentCallback_t argumentOutOfRangeCallback) {
+  SWIG_csharp_exceptions_argument[SWIG_CSharpArgumentException].callback = argumentCallback;
+  SWIG_csharp_exceptions_argument[SWIG_CSharpArgumentNullException].callback = argumentNullCallback;
+  SWIG_csharp_exceptions_argument[SWIG_CSharpArgumentOutOfRangeException].callback = argumentOutOfRangeCallback;
+}
+
+
+/* Callback for returning strings to C# without leaking memory */
+typedef char * (SWIGSTDCALL* SWIG_CSharpStringHelperCallback)(const char *);
+static SWIG_CSharpStringHelperCallback SWIG_csharp_string_callback = NULL;
+
+
+#ifdef __cplusplus
+extern "C" 
+#endif
+SWIGEXPORT void SWIGSTDCALL SWIGRegisterStringCallback_nc(SWIG_CSharpStringHelperCallback callback) {
+  SWIG_csharp_string_callback = callback;
+}
+
+
+/* Contract support */
+
+#define SWIG_contract_assert(nullreturn, expr, msg) if (!(expr)) {SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, msg, ""); return nullreturn; } else
+
+
+/*
+#include <iostream>
+
+#include "c:/geode-native/build/cppcache/apache-geode_export.h"
+#include <geode/internal/DSCode.hpp>
+#include <geode/internal/DSFixedId.hpp>
+#include <geode/internal/DataSerializableFixedId.hpp>
+#include <geode/internal/DataSerializableInternal.hpp>
+#include <geode/internal/DataSerializablePrimitive.hpp>
+
+#include <geode/internal/geode_globals.hpp>
+
+#include <geode/Serializable.hpp>
+#include <geode/Serializer.hpp>
+
+#include <geode/CacheableString.hpp>
+#include <geode/RegionShortcut.hpp>
+#include <geode/Region.hpp>
+#include <geode/RegionFactory.hpp>
+#include <geode/CacheFactory.hpp>
+#include <geode/PoolManager.hpp>
+*/
+
+#include <geode/Region.hpp>
+#include <geode/RegionFactory.hpp>
+#include <geode/Cache.hpp>
+
+
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_DEFAULT_RESPONSE_TIMEOUT_get() {
+  void * jresult ;
+  std::chrono::milliseconds result;
+  
+  result = apache::geode::client::DEFAULT_RESPONSE_TIMEOUT;
+  jresult = new std::chrono::milliseconds((const std::chrono::milliseconds &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getName(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *result = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (std::string *) &((apache::geode::client::Region const *)arg1)->getName();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getFullPath(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *result = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (std::string *) &((apache::geode::client::Region const *)arg1)->getFullPath();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getParentRegion(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::Region > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = ((apache::geode::client::Region const *)arg1)->getParentRegion();
+  jresult = new std::shared_ptr< apache::geode::client::Region >((const std::shared_ptr< apache::geode::client::Region > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getAttributes(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  apache::geode::client::RegionAttributes *result = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (apache::geode::client::RegionAttributes *) &((apache::geode::client::Region const *)arg1)->getAttributes();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getAttributesMutator(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::AttributesMutator > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = ((apache::geode::client::Region const *)arg1)->getAttributesMutator();
+  jresult = new std::shared_ptr< apache::geode::client::AttributesMutator >((const std::shared_ptr< apache::geode::client::AttributesMutator > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getStatistics(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::CacheStatistics > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = ((apache::geode::client::Region const *)arg1)->getStatistics();
+  jresult = new std::shared_ptr< apache::geode::client::CacheStatistics >((const std::shared_ptr< apache::geode::client::CacheStatistics > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_invalidateRegion__SWIG_0(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->invalidateRegion((std::shared_ptr< apache::geode::client::Serializable > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_invalidateRegion__SWIG_1(void * jarg1) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  (arg1)->invalidateRegion();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localInvalidateRegion__SWIG_0(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localInvalidateRegion((std::shared_ptr< apache::geode::client::Serializable > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localInvalidateRegion__SWIG_1(void * jarg1) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  (arg1)->localInvalidateRegion();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_destroyRegion__SWIG_0(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->destroyRegion((std::shared_ptr< apache::geode::client::Serializable > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_destroyRegion__SWIG_1(void * jarg1) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  (arg1)->destroyRegion();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_clear__SWIG_0(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->clear((std::shared_ptr< apache::geode::client::Serializable > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_clear__SWIG_1(void * jarg1) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localClear__SWIG_0(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localClear((std::shared_ptr< apache::geode::client::Serializable > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localClear__SWIG_1(void * jarg1) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  (arg1)->localClear();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localDestroyRegion__SWIG_0(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localDestroyRegion((std::shared_ptr< apache::geode::client::Serializable > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localDestroyRegion__SWIG_1(void * jarg1) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  (arg1)->localDestroyRegion();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getSubregion(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::Region > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (arg1)->getSubregion((std::string const &)*arg2);
+  jresult = new std::shared_ptr< apache::geode::client::Region >((const std::shared_ptr< apache::geode::client::Region > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_createSubregion(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  apache::geode::client::RegionAttributes arg3 ;
+  apache::geode::client::RegionAttributes *argp3 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::Region > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  argp3 = (apache::geode::client::RegionAttributes *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null apache::geode::client::RegionAttributes", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (arg1)->createSubregion((std::string const &)*arg2,arg3);
+  jresult = new std::shared_ptr< apache::geode::client::Region >((const std::shared_ptr< apache::geode::client::Region > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_subregions(void * jarg1, unsigned int jarg2) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  bool arg2 ;
+  SwigValueWrapper< std::vector< std::shared_ptr< apache::geode::client::Region > > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (arg1)->subregions(arg2);
+  jresult = new std::vector< std::shared_ptr< apache::geode::client::Region > >((const std::vector< std::shared_ptr< apache::geode::client::Region > > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getEntry(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::RegionEntry > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  result = (arg1)->getEntry((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+  jresult = new std::shared_ptr< apache::geode::client::RegionEntry >((const std::shared_ptr< apache::geode::client::RegionEntry > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_get__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg3 = 0 ;
+  std::shared_ptr< Cacheable > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return 0;
+  } 
+  result = (arg1)->get((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg3);
+  jresult = new std::shared_ptr< Cacheable >((const std::shared_ptr< Cacheable > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_get__SWIG_1(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  result = (arg1)->get((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+  jresult = new std::shared_ptr< Cacheable >((const std::shared_ptr< Cacheable > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_put__SWIG_0(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg4 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return ;
+  } 
+  arg4 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->put((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_put__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->put((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_putAll__SWIG_0(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  HashMapOfCacheable *arg2 = 0 ;
+  std::chrono::milliseconds arg3 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg4 = 0 ;
+  std::chrono::milliseconds *argp3 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (HashMapOfCacheable *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "HashMapOfCacheable const & type is null", 0);
+    return ;
+  } 
+  argp3 = (std::chrono::milliseconds *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::chrono::milliseconds", 0);
+    return ;
+  }
+  arg3 = *argp3; 
+  arg4 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->putAll((HashMapOfCacheable const &)*arg2,arg3,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_putAll__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  HashMapOfCacheable *arg2 = 0 ;
+  std::chrono::milliseconds arg3 ;
+  std::chrono::milliseconds *argp3 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (HashMapOfCacheable *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "HashMapOfCacheable const & type is null", 0);
+    return ;
+  } 
+  argp3 = (std::chrono::milliseconds *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::chrono::milliseconds", 0);
+    return ;
+  }
+  arg3 = *argp3; 
+  (arg1)->putAll((HashMapOfCacheable const &)*arg2,arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_putAll__SWIG_2(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  HashMapOfCacheable *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (HashMapOfCacheable *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "HashMapOfCacheable const & type is null", 0);
+    return ;
+  } 
+  (arg1)->putAll((HashMapOfCacheable const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localPut__SWIG_0(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg4 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return ;
+  } 
+  arg4 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localPut((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localPut__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localPut((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_create__SWIG_0(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg4 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return ;
+  } 
+  arg4 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->create((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_create__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->create((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localCreate__SWIG_0(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg4 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return ;
+  } 
+  arg4 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localCreate((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localCreate__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localCreate((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_invalidate__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg3 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->invalidate((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_invalidate__SWIG_1(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->invalidate((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localInvalidate__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg3 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localInvalidate((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localInvalidate__SWIG_1(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localInvalidate((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_destroy__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg3 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->destroy((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_destroy__SWIG_1(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->destroy((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localDestroy__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg3 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localDestroy((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_localDestroy__SWIG_1(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->localDestroy((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_remove__SWIG_0(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg4 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return 0;
+  } 
+  arg4 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->remove((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_remove__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->remove((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_remove__SWIG_8(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->remove((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_removeEx__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg3 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->removeEx((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_removeEx__SWIG_1(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->removeEx((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_localRemove__SWIG_0(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg4 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return 0;
+  } 
+  arg4 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->localRemove((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_localRemove__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< Cacheable > *arg3 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::shared_ptr< Cacheable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Cacheable > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->localRemove((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< Cacheable > const &)*arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_localRemoveEx__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg3 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->localRemoveEx((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_localRemoveEx__SWIG_1(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->localRemoveEx((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_keys(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  SwigValueWrapper< std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (arg1)->keys();
+  jresult = new std::vector< std::shared_ptr< apache::geode::client::CacheableKey > >((const std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_serverKeys(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  SwigValueWrapper< std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (arg1)->serverKeys();
+  jresult = new std::vector< std::shared_ptr< apache::geode::client::CacheableKey > >((const std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_values(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< Cacheable > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (arg1)->values();
+  jresult = new std::vector< std::shared_ptr< Cacheable > >((const std::vector< std::shared_ptr< Cacheable > > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_entries(void * jarg1, unsigned int jarg2) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  bool arg2 ;
+  SwigValueWrapper< std::vector< std::shared_ptr< apache::geode::client::RegionEntry > > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (arg1)->entries(arg2);
+  jresult = new std::vector< std::shared_ptr< apache::geode::client::RegionEntry > >((const std::vector< std::shared_ptr< apache::geode::client::RegionEntry > > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getRegionService(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  apache::geode::client::RegionService *result = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (apache::geode::client::RegionService *) &((apache::geode::client::Region const *)arg1)->getRegionService();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_isDestroyed(void * jarg1) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (bool)((apache::geode::client::Region const *)arg1)->isDestroyed();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_containsValueForKey(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((apache::geode::client::Region const *)arg1)->containsValueForKey((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_containsKey(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((apache::geode::client::Region const *)arg1)->containsKey((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_containsKeyOnServer(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::CacheableKey > *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::CacheableKey > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::CacheableKey > const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)((apache::geode::client::Region const *)arg1)->containsKeyOnServer((std::shared_ptr< apache::geode::client::CacheableKey > const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getInterestList(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  SwigValueWrapper< std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = ((apache::geode::client::Region const *)arg1)->getInterestList();
+  jresult = new std::vector< std::shared_ptr< apache::geode::client::CacheableKey > >((const std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getInterestListRegex(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< CacheableString > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = ((apache::geode::client::Region const *)arg1)->getInterestListRegex();
+  jresult = new std::vector< std::shared_ptr< CacheableString > >((const std::vector< std::shared_ptr< CacheableString > > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerKeys__SWIG_0(void * jarg1, void * jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *arg2 = 0 ;
+  bool arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const & type is null", 0);
+    return ;
+  } 
+  arg3 = jarg3 ? true : false; 
+  arg4 = jarg4 ? true : false; 
+  arg5 = jarg5 ? true : false; 
+  (arg1)->registerKeys((std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const &)*arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerKeys__SWIG_1(void * jarg1, void * jarg2, unsigned int jarg3, unsigned int jarg4) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *arg2 = 0 ;
+  bool arg3 ;
+  bool arg4 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const & type is null", 0);
+    return ;
+  } 
+  arg3 = jarg3 ? true : false; 
+  arg4 = jarg4 ? true : false; 
+  (arg1)->registerKeys((std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const &)*arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerKeys__SWIG_2(void * jarg1, void * jarg2, unsigned int jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *arg2 = 0 ;
+  bool arg3 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const & type is null", 0);
+    return ;
+  } 
+  arg3 = jarg3 ? true : false; 
+  (arg1)->registerKeys((std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const &)*arg2,arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerKeys__SWIG_3(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->registerKeys((std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_unregisterKeys(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->unregisterKeys((std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerAllKeys__SWIG_0(void * jarg1, unsigned int jarg2, unsigned int jarg3, unsigned int jarg4) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  bool arg2 ;
+  bool arg3 ;
+  bool arg4 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  arg3 = jarg3 ? true : false; 
+  arg4 = jarg4 ? true : false; 
+  (arg1)->registerAllKeys(arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerAllKeys__SWIG_1(void * jarg1, unsigned int jarg2, unsigned int jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  bool arg2 ;
+  bool arg3 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  arg3 = jarg3 ? true : false; 
+  (arg1)->registerAllKeys(arg2,arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerAllKeys__SWIG_2(void * jarg1, unsigned int jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->registerAllKeys(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerAllKeys__SWIG_3(void * jarg1) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  (arg1)->registerAllKeys();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_unregisterAllKeys(void * jarg1) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  (arg1)->unregisterAllKeys();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerRegex__SWIG_0(void * jarg1, void * jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  bool arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return ;
+  } 
+  arg3 = jarg3 ? true : false; 
+  arg4 = jarg4 ? true : false; 
+  arg5 = jarg5 ? true : false; 
+  (arg1)->registerRegex((std::string const &)*arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerRegex__SWIG_1(void * jarg1, void * jarg2, unsigned int jarg3, unsigned int jarg4) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  bool arg3 ;
+  bool arg4 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return ;
+  } 
+  arg3 = jarg3 ? true : false; 
+  arg4 = jarg4 ? true : false; 
+  (arg1)->registerRegex((std::string const &)*arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerRegex__SWIG_2(void * jarg1, void * jarg2, unsigned int jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  bool arg3 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return ;
+  } 
+  arg3 = jarg3 ? true : false; 
+  (arg1)->registerRegex((std::string const &)*arg2,arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_registerRegex__SWIG_3(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return ;
+  } 
+  (arg1)->registerRegex((std::string const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_unregisterRegex(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return ;
+  } 
+  (arg1)->unregisterRegex((std::string const &)*arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getAll__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *arg2 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg3 = 0 ;
+  HashMapOfCacheable result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return 0;
+  } 
+  result = (arg1)->getAll((std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const &)*arg2,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg3);
+  jresult = new HashMapOfCacheable((const HashMapOfCacheable &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getAll__SWIG_1(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *arg2 = 0 ;
+  HashMapOfCacheable result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const & type is null", 0);
+    return 0;
+  } 
+  result = (arg1)->getAll((std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const &)*arg2);
+  jresult = new HashMapOfCacheable((const HashMapOfCacheable &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_query__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  std::chrono::milliseconds arg3 ;
+  std::chrono::milliseconds *argp3 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::SelectResults > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  argp3 = (std::chrono::milliseconds *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::chrono::milliseconds", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (arg1)->query((std::string const &)*arg2,arg3);
+  jresult = new std::shared_ptr< apache::geode::client::SelectResults >((const std::shared_ptr< apache::geode::client::SelectResults > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_query__SWIG_1(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::SelectResults > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (arg1)->query((std::string const &)*arg2);
+  jresult = new std::shared_ptr< apache::geode::client::SelectResults >((const std::shared_ptr< apache::geode::client::SelectResults > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_existsValue__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  std::chrono::milliseconds arg3 ;
+  std::chrono::milliseconds *argp3 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  argp3 = (std::chrono::milliseconds *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::chrono::milliseconds", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (bool)(arg1)->existsValue((std::string const &)*arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Region_existsValue__SWIG_1(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->existsValue((std::string const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_selectValue__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  std::chrono::milliseconds arg3 ;
+  std::chrono::milliseconds *argp3 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::Serializable > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  argp3 = (std::chrono::milliseconds *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::chrono::milliseconds", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (arg1)->selectValue((std::string const &)*arg2,arg3);
+  jresult = new std::shared_ptr< apache::geode::client::Serializable >((const std::shared_ptr< apache::geode::client::Serializable > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_selectValue__SWIG_1(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::string *arg2 = 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::Serializable > > result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (arg1)->selectValue((std::string const &)*arg2);
+  jresult = new std::shared_ptr< apache::geode::client::Serializable >((const std::shared_ptr< apache::geode::client::Serializable > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_removeAll__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *arg2 = 0 ;
+  std::shared_ptr< apache::geode::client::Serializable > *arg3 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const & type is null", 0);
+    return ;
+  } 
+  arg3 = (std::shared_ptr< apache::geode::client::Serializable > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Serializable > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->removeAll((std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const &)*arg2,(std::shared_ptr< apache::geode::client::Serializable > const &)*arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Region_removeAll__SWIG_1(void * jarg1, void * jarg2) {
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  arg2 = (std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const & type is null", 0);
+    return ;
+  } 
+  (arg1)->removeAll((std::vector< std::shared_ptr< apache::geode::client::CacheableKey > > const &)*arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_size(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  uint32_t result;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (arg1)->size();
+  jresult = new uint32_t((const uint32_t &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getPool(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  std::shared_ptr< apache::geode::client::Pool > *result = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (std::shared_ptr< apache::geode::client::Pool > *) &((apache::geode::client::Region const *)arg1)->getPool();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Region_getCache(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Region *arg1 = (apache::geode::client::Region *) 0 ;
+  apache::geode::client::Cache *result = 0 ;
+  
+  arg1 = (apache::geode::client::Region *)jarg1; 
+  result = (apache::geode::client::Cache *) &(arg1)->getCache();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_RegionFactory(void * jarg1) {
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_RegionFactory(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "apache::geode::client::RegionFactory && type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *)new apache::geode::client::RegionFactory((apache::geode::client::RegionFactory &&)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_create(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::string arg2 ;
+  std::string *argp2 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::Region > > result;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  argp2 = (std::string *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::string", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (arg1)->create(arg2);
+  jresult = new std::shared_ptr< apache::geode::client::Region >((const std::shared_ptr< apache::geode::client::Region > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setCacheLoader__SWIG_0(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::shared_ptr< CacheLoader > *arg2 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::shared_ptr< CacheLoader > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< CacheLoader > const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setCacheLoader((std::shared_ptr< CacheLoader > const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setCacheWriter__SWIG_0(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::shared_ptr< CacheWriter > *arg2 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::shared_ptr< CacheWriter > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< CacheWriter > const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setCacheWriter((std::shared_ptr< CacheWriter > const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setCacheListener__SWIG_0(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::shared_ptr< CacheListener > *arg2 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::shared_ptr< CacheListener > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< CacheListener > const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setCacheListener((std::shared_ptr< CacheListener > const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setPartitionResolver__SWIG_0(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::shared_ptr< PartitionResolver > *arg2 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::shared_ptr< PartitionResolver > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< PartitionResolver > const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setPartitionResolver((std::shared_ptr< PartitionResolver > const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setCacheLoader__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::string *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setCacheLoader((std::string const &)*arg2,(std::string const &)*arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setCacheWriter__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::string *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setCacheWriter((std::string const &)*arg2,(std::string const &)*arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setCacheListener__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::string *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setCacheListener((std::string const &)*arg2,(std::string const &)*arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setPartitionResolver__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::string *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setPartitionResolver((std::string const &)*arg2,(std::string const &)*arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setEntryIdleTimeout(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  ExpirationAction arg2 ;
+  std::chrono::seconds arg3 ;
+  ExpirationAction *argp2 ;
+  std::chrono::seconds *argp3 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  argp2 = (ExpirationAction *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ExpirationAction", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  argp3 = (std::chrono::seconds *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::chrono::seconds", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setEntryIdleTimeout(arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setEntryTimeToLive(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  ExpirationAction arg2 ;
+  std::chrono::seconds arg3 ;
+  ExpirationAction *argp2 ;
+  std::chrono::seconds *argp3 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  argp2 = (ExpirationAction *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ExpirationAction", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  argp3 = (std::chrono::seconds *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::chrono::seconds", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setEntryTimeToLive(arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setRegionIdleTimeout(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  ExpirationAction arg2 ;
+  std::chrono::seconds arg3 ;
+  ExpirationAction *argp2 ;
+  std::chrono::seconds *argp3 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  argp2 = (ExpirationAction *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ExpirationAction", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  argp3 = (std::chrono::seconds *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::chrono::seconds", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setRegionIdleTimeout(arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setRegionTimeToLive(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  ExpirationAction arg2 ;
+  std::chrono::seconds arg3 ;
+  ExpirationAction *argp2 ;
+  std::chrono::seconds *argp3 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  argp2 = (ExpirationAction *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ExpirationAction", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  argp3 = (std::chrono::seconds *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::chrono::seconds", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setRegionTimeToLive(arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setPersistenceManager__SWIG_0(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  std::shared_ptr< Properties > *arg4 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::string *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  arg4 = (std::shared_ptr< Properties > *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Properties > const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setPersistenceManager((std::string const &)*arg2,(std::string const &)*arg3,(std::shared_ptr< Properties > const &)*arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setPersistenceManager__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::string *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setPersistenceManager((std::string const &)*arg2,(std::string const &)*arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setPersistenceManager__SWIG_2(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::shared_ptr< PersistenceManager > *arg2 = 0 ;
+  std::shared_ptr< Properties > *arg3 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::shared_ptr< PersistenceManager > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< PersistenceManager > const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::shared_ptr< Properties > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< Properties > const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setPersistenceManager((std::shared_ptr< PersistenceManager > const &)*arg2,(std::shared_ptr< Properties > const &)*arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setPersistenceManager__SWIG_3(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::shared_ptr< PersistenceManager > *arg2 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::shared_ptr< PersistenceManager > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< PersistenceManager > const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setPersistenceManager((std::shared_ptr< PersistenceManager > const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setInitialCapacity(void * jarg1, int jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  int arg2 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (int)jarg2; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setInitialCapacity(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setLoadFactor(void * jarg1, float jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  float arg2 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (float)jarg2; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setLoadFactor(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setConcurrencyLevel(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  uint8_t arg2 ;
+  uint8_t *argp2 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  argp2 = (uint8_t *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null uint8_t", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setConcurrencyLevel(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setLruEntriesLimit(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  uint32_t arg2 ;
+  uint32_t const *argp2 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  argp2 = (uint32_t *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null uint32_t const", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setLruEntriesLimit(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setDiskPolicy(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  DiskPolicyType arg2 ;
+  DiskPolicyType const *argp2 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  argp2 = (DiskPolicyType *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null DiskPolicyType const", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setDiskPolicy(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setCachingEnabled(void * jarg1, unsigned int jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  bool arg2 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setCachingEnabled(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setPoolName(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  std::string *arg2 = 0 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setPoolName((std::string const &)*arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setCloningEnabled(void * jarg1, unsigned int jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  bool arg2 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setCloningEnabled(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RegionFactory_setConcurrencyChecksEnabled(void * jarg1, unsigned int jarg2) {
+  void * jresult ;
+  apache::geode::client::RegionFactory *arg1 = (apache::geode::client::RegionFactory *) 0 ;
+  bool arg2 ;
+  apache::geode::client::RegionFactory *result = 0 ;
+  
+  arg1 = (apache::geode::client::RegionFactory *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (apache::geode::client::RegionFactory *) &(arg1)->setConcurrencyChecksEnabled(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_createRegionFactory(void * jarg1, int jarg2) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  apache::geode::client::RegionShortcut arg2 ;
+  apache::geode::client::RegionFactory result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  arg2 = (apache::geode::client::RegionShortcut)jarg2; 
+  result = (arg1)->createRegionFactory(arg2);
+  jresult = new apache::geode::client::RegionFactory((const apache::geode::client::RegionFactory &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Cache_initializeDeclarativeCache(void * jarg1, void * jarg2) {
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return ;
+  } 
+  (arg1)->initializeDeclarativeCache((std::string const &)*arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_getName(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  std::string *result = 0 ;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = (std::string *) &((apache::geode::client::Cache const *)arg1)->getName();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Cache_isClosed(void * jarg1) {
+  unsigned int jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = (bool)((apache::geode::client::Cache const *)arg1)->isClosed();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_getTypeRegistry(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  apache::geode::client::TypeRegistry *result = 0 ;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = (apache::geode::client::TypeRegistry *) &((apache::geode::client::Cache const *)arg1)->getTypeRegistry();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Cache_close__SWIG_0(void * jarg1) {
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  (arg1)->close();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Cache_close__SWIG_1(void * jarg1, unsigned int jarg2) {
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->close(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_getRegion(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  std::string *arg2 = 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::Region > > result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = ((apache::geode::client::Cache const *)arg1)->getRegion((std::string const &)*arg2);
+  jresult = new std::shared_ptr< apache::geode::client::Region >((const std::shared_ptr< apache::geode::client::Region > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_rootRegions(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  SwigValueWrapper< std::vector< std::shared_ptr< apache::geode::client::Region > > > result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = ((apache::geode::client::Cache const *)arg1)->rootRegions();
+  jresult = new std::vector< std::shared_ptr< apache::geode::client::Region > >((const std::vector< std::shared_ptr< apache::geode::client::Region > > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_getQueryService__SWIG_0(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::QueryService > > result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = (arg1)->getQueryService();
+  jresult = new std::shared_ptr< apache::geode::client::QueryService >((const std::shared_ptr< apache::geode::client::QueryService > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_getQueryService__SWIG_1(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  std::string *arg2 = 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::QueryService > > result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = ((apache::geode::client::Cache const *)arg1)->getQueryService((std::string const &)*arg2);
+  jresult = new std::shared_ptr< apache::geode::client::QueryService >((const std::shared_ptr< apache::geode::client::QueryService > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Cache_readyForEvents(void * jarg1) {
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  (arg1)->readyForEvents();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_createAuthenticatedView(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  std::shared_ptr< apache::geode::client::Properties > *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  apache::geode::client::AuthenticatedView result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  arg2 = (std::shared_ptr< apache::geode::client::Properties > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::shared_ptr< apache::geode::client::Properties > const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (std::string *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = (arg1)->createAuthenticatedView((std::shared_ptr< apache::geode::client::Properties > const &)*arg2,(std::string const &)*arg3);
+  jresult = new apache::geode::client::AuthenticatedView((const apache::geode::client::AuthenticatedView &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_getCacheTransactionManager(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  SwigValueWrapper< std::shared_ptr< apache::geode::client::CacheTransactionManager > > result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = ((apache::geode::client::Cache const *)arg1)->getCacheTransactionManager();
+  jresult = new std::shared_ptr< apache::geode::client::CacheTransactionManager >((const std::shared_ptr< apache::geode::client::CacheTransactionManager > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Cache_getPdxIgnoreUnreadFields(void * jarg1) {
+  unsigned int jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = (bool)((apache::geode::client::Cache const *)arg1)->getPdxIgnoreUnreadFields();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Cache_getPdxReadSerialized(void * jarg1) {
+  unsigned int jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  bool result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = (bool)((apache::geode::client::Cache const *)arg1)->getPdxReadSerialized();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_createPdxInstanceFactory(void * jarg1, void * jarg2) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  std::string *arg2 = 0 ;
+  PdxInstanceFactory result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = ((apache::geode::client::Cache const *)arg1)->createPdxInstanceFactory((std::string const &)*arg2);
+  jresult = new PdxInstanceFactory((const PdxInstanceFactory &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_createDataInput(void * jarg1, void * jarg2, unsigned long jarg3) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  uint8_t *arg2 = (uint8_t *) 0 ;
+  size_t arg3 ;
+  apache::geode::client::DataInput result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  arg2 = (uint8_t *)jarg2; 
+  arg3 = (size_t)jarg3; 
+  result = ((apache::geode::client::Cache const *)arg1)->createDataInput((uint8_t const *)arg2,arg3);
+  jresult = new apache::geode::client::DataInput((const apache::geode::client::DataInput &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_createDataOutput(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  apache::geode::client::DataOutput result;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = ((apache::geode::client::Cache const *)arg1)->createDataOutput();
+  jresult = new apache::geode::client::DataOutput((const apache::geode::client::DataOutput &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_getPoolManager(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  apache::geode::client::PoolManager *result = 0 ;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = (apache::geode::client::PoolManager *) &((apache::geode::client::Cache const *)arg1)->getPoolManager();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Cache_getSystemProperties(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  SystemProperties *result = 0 ;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  result = (SystemProperties *) &((apache::geode::client::Cache const *)arg1)->getSystemProperties();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_Cache(void * jarg1) {
+  apache::geode::client::Cache *arg1 = (apache::geode::client::Cache *) 0 ;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Cache(void * jarg1) {
+  void * jresult ;
+  apache::geode::client::Cache *arg1 = 0 ;
+  apache::geode::client::Cache *result = 0 ;
+  
+  arg1 = (apache::geode::client::Cache *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "apache::geode::client::Cache && type is null", 0);
+    return 0;
+  } 
+  result = (apache::geode::client::Cache *)new apache::geode::client::Cache((apache::geode::client::Cache &&)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+#ifdef __cplusplus
+}
+#endif
+

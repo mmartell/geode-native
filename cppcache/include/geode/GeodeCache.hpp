@@ -69,20 +69,20 @@ class APACHE_GEODE_EXPORT GeodeCache : public RegionService {
    *         at the time of region creation
    * @throws UnknownException otherwise
    */
-  virtual void initializeDeclarativeCache(const std::string& cacheXml) = 0;
+  //virtual void initializeDeclarativeCache(const std::string& cacheXml) = 0;
 
-  virtual SystemProperties& getSystemProperties() const = 0;
+  //virtual SystemProperties& getSystemProperties() const = 0;
 
   /**
    * Returns whether Cache saves unread fields for Pdx types.
    */
-  virtual bool getPdxIgnoreUnreadFields() const = 0;
+  //virtual bool getPdxIgnoreUnreadFields() const = 0;
 
   /**
    * Returns whether { @link PdxInstance} is preferred for PDX types instead of
    * C++ object.
    */
-  virtual bool getPdxReadSerialized() const = 0;
+  //virtual bool getPdxReadSerialized() const = 0;
 };
 }  // namespace client
 }  // namespace geode

@@ -18,13 +18,13 @@
 #include <memory>
 
 #include <geode/Cache.hpp>
-#include <geode/FunctionService.hpp>
-#include <geode/PoolManager.hpp>
-#include <geode/RegionFactory.hpp>
+//#include <geode/FunctionService.hpp>
+//#include <geode/PoolManager.hpp>
+//#include <geode/RegionFactory.hpp>
 #include <geode/internal/geode_globals.hpp>
 
 #include "CacheImpl.hpp"
-#include "CacheRegionHelper.hpp"
+//#include "CacheRegionHelper.hpp"
 #include "DistributedSystemImpl.hpp"
 #include "ProxyRegion.hpp"
 #include "UserAttributes.hpp"

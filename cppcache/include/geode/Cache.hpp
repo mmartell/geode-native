@@ -77,7 +77,7 @@ class APACHE_GEODE_EXPORT Cache : public GeodeCache {
    * @param regionShortcut
    *        To create the region specific type, @see RegionShortcut
    */
-  virtual RegionFactory createRegionFactory(RegionShortcut regionShortcut);
+  //virtual RegionFactory createRegionFactory(RegionShortcut regionShortcut);
 
   /**
    * Initializes the cache from an xml file
@@ -85,7 +85,7 @@ class APACHE_GEODE_EXPORT Cache : public GeodeCache {
    * @param cacheXml
    *        Valid cache.xml file
    */
-  void initializeDeclarativeCache(const std::string& cacheXml) override;
+  //void initializeDeclarativeCache(const std::string& cacheXml) override;
 
   /** Returns the name of this cache.
    * @return the string name of this cache
@@ -106,7 +106,7 @@ class APACHE_GEODE_EXPORT Cache : public GeodeCache {
    * Returns the type registry that this cache was
    * {@link CacheFactory::create created} with.
    */
-  TypeRegistry& getTypeRegistry() const;
+  //TypeRegistry& getTypeRegistry() const;
 
   /**
    * Terminates this object cache and releases all the local resources.
@@ -157,7 +157,7 @@ class APACHE_GEODE_EXPORT Cache : public GeodeCache {
    * Gets the QueryService from which a new Query can be obtained.
    * @returns A smart pointer to the QueryService.
    */
-  std::shared_ptr<QueryService> getQueryService() override;
+  //std::shared_ptr<QueryService> getQueryService() override;
 
   /**
    * Gets the QueryService from which a new Query can be obtained.
@@ -166,13 +166,13 @@ class APACHE_GEODE_EXPORT Cache : public GeodeCache {
    * PoolManager}
    * @returns A smart pointer to the QueryService.
    */
-  virtual std::shared_ptr<QueryService> getQueryService(
-      const std::string& poolName) const;
+  //virtual std::shared_ptr<QueryService> getQueryService(
+  //    const std::string& poolName) const;
 
   /**
    * Send the "client ready" message to the server from a durable client.
    */
-  virtual void readyForEvents();
+  //virtual void readyForEvents();
 
   /**
    * Creates an authenticated cache using the given user security properties.
@@ -197,28 +197,28 @@ class APACHE_GEODE_EXPORT Cache : public GeodeCache {
    * there are more than one Pool in Cache.
    */
 
-  virtual AuthenticatedView createAuthenticatedView(
-      const std::shared_ptr<Properties>& userSecurityProperties,
-      const std::string& poolName);
+  //virtual AuthenticatedView createAuthenticatedView(
+  //    const std::shared_ptr<Properties>& userSecurityProperties,
+  //    const std::string& poolName);
 
   /**
    * Get the CacheTransactionManager instance for this Cache.
    * @return The CacheTransactionManager instance.
    * @throws CacheClosedException if the cache is closed.
    */
-  virtual std::shared_ptr<CacheTransactionManager> getCacheTransactionManager()
-      const;
+  //virtual std::shared_ptr<CacheTransactionManager> getCacheTransactionManager()
+  //    const;
 
   /**
    * Returns whether Cache saves unread fields for Pdx types.
    */
-  bool getPdxIgnoreUnreadFields() const override;
+  //bool getPdxIgnoreUnreadFields() const override;
 
   /**
    * Returns whether { @link PdxInstance} is preferred for PDX types instead of
    * C++ object.
    */
-  bool getPdxReadSerialized() const override;
+  //bool getPdxReadSerialized() const override;
 
   /**
    * Returns a factory that can create a {@link PdxInstance}.
@@ -228,16 +228,16 @@ class APACHE_GEODE_EXPORT Cache : public GeodeCache {
    * @throws IllegalStateException if the className is nullptr or invalid.
    * @return the factory
    */
-  PdxInstanceFactory createPdxInstanceFactory(
-      const std::string& className) const override;
+  //PdxInstanceFactory createPdxInstanceFactory(
+  //    const std::string& className) const override;
 
   virtual DataInput createDataInput(const uint8_t* m_buffer, size_t len) const;
 
   virtual DataOutput createDataOutput() const;
 
-  virtual PoolManager& getPoolManager() const;
+  //virtual PoolManager& getPoolManager() const;
 
-  SystemProperties& getSystemProperties() const override;
+  //SystemProperties& getSystemProperties() const override;
 
   Cache() = delete;
   virtual ~Cache();
@@ -250,14 +250,12 @@ class APACHE_GEODE_EXPORT Cache : public GeodeCache {
   /**
    * @brief constructors
    */
-  Cache(const std::shared_ptr<Properties>& dsProp, bool ignorePdxUnreadFields,
-        bool readPdxSerialized,
-        const std::shared_ptr<AuthInitialize>& authInitialize);
+  Cache();
 
   std::unique_ptr<CacheImpl> m_cacheImpl;
 
  protected:
-  static bool isPoolInMultiuserMode(std::shared_ptr<Region> regionPtr);
+  //static bool isPoolInMultiuserMode(std::shared_ptr<Region> regionPtr);
 
   friend class CacheFactory;
   friend class CacheRegionHelper;

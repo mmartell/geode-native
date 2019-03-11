@@ -97,7 +97,7 @@ class APACHE_GEODE_EXPORT RegionService {
    * Gets the QueryService from which a new Query can be obtained.
    * @returns A smart pointer to the QueryService.
    */
-  virtual std::shared_ptr<QueryService> getQueryService() = 0;
+  //virtual std::shared_ptr<QueryService> getQueryService() = 0;
 
   /**
    * Returns a set of root regions in the cache. This set is a snapshot and
@@ -116,8 +116,8 @@ class APACHE_GEODE_EXPORT RegionService {
    * when it is fully deserialized.
    * @return the factory
    */
-  virtual PdxInstanceFactory createPdxInstanceFactory(
-      const std::string& className) const = 0;
+  //virtual PdxInstanceFactory createPdxInstanceFactory(
+  //    const std::string& className) const = 0;
 };
 }  // namespace client
 }  // namespace geode
