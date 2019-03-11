@@ -33,7 +33,7 @@ class APACHE_GEODE_EXPORT CacheableToken;
 /** Implement a non-mutable int64_t wrapper that can serve as a distributable
  * key object for cacheing as well as being a 64 bit value. */
 class APACHE_GEODE_EXPORT CacheableToken
-    : public internal::DataSerializableInternal {
+    : public internalXYZ::DataSerializableInternal {
  private:
   enum TokenType { NOT_USED = 0, INVALID, DESTROYED, OVERFLOWED, TOMBSTONE };
 

@@ -49,7 +49,7 @@ int TombstoneExpiryHandler::handle_timeout(const ACE_Time_Value&, const void*) {
   auto expiryTaskId = m_entryPtr->getExpiryTaskId();
   auto sec = curr_time - creationTime - m_duration;
   try {
-    using apache::geode::internal::chrono::duration::to_string;
+    using apache::geode::internalXYZ::chrono::duration::to_string;
     LOGDEBUG(
         "Entered entry expiry task handler for tombstone of key [%s]: "
         "%s,%s,%s,%s",

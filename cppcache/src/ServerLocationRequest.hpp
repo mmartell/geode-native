@@ -26,7 +26,7 @@ namespace apache {
 namespace geode {
 namespace client {
 
-class ServerLocationRequest : public internal::DataSerializableFixedId {
+class ServerLocationRequest : public internalXYZ::DataSerializableFixedId {
  public:
   ServerLocationRequest() = default;
   ~ServerLocationRequest() override = default;

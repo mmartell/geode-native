@@ -157,7 +157,7 @@ void TcpConn::listen(const char *ipaddr,
 
 void TcpConn::listen(ACE_INET_Addr addr,
                      std::chrono::microseconds waitSeconds) {
-  using apache::geode::internal::chrono::duration::to_string;
+  using apache::geode::internalXYZ::chrono::duration::to_string;
 
   GF_DEV_ASSERT(m_io != nullptr);
 
@@ -200,7 +200,7 @@ void TcpConn::connect(const char *ipaddr,
 }
 
 void TcpConn::connect() {
-  using apache::geode::internal::chrono::duration::to_string;
+  using apache::geode::internalXYZ::chrono::duration::to_string;
 
   GF_DEV_ASSERT(m_io != nullptr);
 

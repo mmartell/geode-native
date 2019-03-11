@@ -20,7 +20,7 @@
 namespace apache {
 namespace geode {
 namespace client {
-namespace internal {
+namespace internalXYZ {
 
 template class APACHE_GEODE_EXPLICIT_TEMPLATE_EXPORT
     CacheableKeyPrimitive<bool, DSCode::CacheableBoolean>;
@@ -58,7 +58,7 @@ template class APACHE_GEODE_EXPLICIT_TEMPLATE_EXPORT
 template class APACHE_GEODE_EXPLICIT_TEMPLATE_EXPORT CacheableArrayPrimitive<
     std::shared_ptr<CacheableString>, DSCode::CacheableStringArray>;
 
-}  // namespace internal
+}  // namespace internalXYZ
 }  // namespace client
 }  // namespace geode
 }  // namespace apache

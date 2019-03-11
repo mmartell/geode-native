@@ -40,7 +40,7 @@ using apache::geode::client::CacheHelper;
 using apache::geode::client::EntryNotFoundException;
 using apache::geode::client::Region;
 using apache::geode::client::Utils;
-using apache::geode::client::internal::DSCode;
+using apache::geode::client::internalXYZ::DSCode;
 
 using apache::geode::client::testing::CacheableWrapper;
 using apache::geode::client::testing::CacheableWrapperFactory;

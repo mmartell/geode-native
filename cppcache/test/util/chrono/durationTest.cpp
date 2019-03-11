@@ -24,9 +24,9 @@
 
 #include "util/chrono/duration_bounds.hpp"
 
-using apache::geode::internal::chrono::duration::_ceil;
-using apache::geode::internal::chrono::duration::from_string;
-using apache::geode::internal::chrono::duration::to_string;
+using apache::geode::internalXYZ::chrono::duration::_ceil;
+using apache::geode::internalXYZ::chrono::duration::from_string;
+using apache::geode::internalXYZ::chrono::duration::to_string;
 using apache::geode::util::chrono::duration::assert_bounds;
 
 TEST(util_chrono_durationTest, ceil) {

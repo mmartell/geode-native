@@ -71,8 +71,8 @@ using apache::geode::client::CacheableUndefined;
 using apache::geode::client::CacheableVector;
 using apache::geode::client::CacheHelper;
 using apache::geode::client::Serializable;
-using apache::geode::client::internal::DataSerializablePrimitive;
-using apache::geode::client::internal::DSCode;
+using apache::geode::client::internalXYZ::DataSerializablePrimitive;
+using apache::geode::client::internalXYZ::DSCode;
 
 using apache::geode::client::testing::CacheableWrapper;
 using apache::geode::client::testing::CacheableWrapperFactory;

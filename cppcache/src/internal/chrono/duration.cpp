@@ -19,7 +19,7 @@
 
 namespace apache {
 namespace geode {
-namespace internal {
+namespace internalXYZ {
 namespace chrono {
 namespace duration {
 
@@ -32,6 +32,6 @@ constexpr char const* _suffix<std::nano>::value;
 
 }  // namespace duration
 }  // namespace chrono
-}  // namespace internal
+}  // namespace internalXYZ
 }  // namespace geode
 }  // namespace apache

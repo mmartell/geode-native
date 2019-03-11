@@ -391,7 +391,7 @@ inline void TcrMessage::writeInt(uint8_t* buffer, uint32_t value) {
 }
 std::shared_ptr<Serializable> TcrMessage::readCacheableString(DataInput& input,
                                                               int lenObj) {
-  auto decoded = internal::JavaModifiedUtf8::decode(
+  auto decoded = internalXYZ::JavaModifiedUtf8::decode(
       reinterpret_cast<const char*>(input.currentBufferPosition()), lenObj);
   input.advanceCursor(lenObj);
 
@@ -621,7 +621,7 @@ void TcrMessage::writeRegionPart(const std::string& regionName) {
 
 void TcrMessage::writeStringPart(const std::string& str) {
   if (!str.empty()) {
-    auto jmutf8 = internal::JavaModifiedUtf8::fromString(str);
+    auto jmutf8 = internalXYZ::JavaModifiedUtf8::fromString(str);
 
     auto encodedLen = static_cast<int32_t>(jmutf8.length());
     m_request->writeInt(encodedLen);

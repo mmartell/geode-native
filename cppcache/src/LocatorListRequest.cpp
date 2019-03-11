@@ -24,7 +24,7 @@ namespace apache {
 namespace geode {
 namespace client {
 
-using internal::DSFid;
+using internalXYZ::DSFid;
 
 LocatorListRequest::LocatorListRequest(const std::string& servergroup)
     : m_servergroup(servergroup) {}

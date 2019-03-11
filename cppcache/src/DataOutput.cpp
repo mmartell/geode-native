@@ -180,7 +180,7 @@ void DataOutput::writeJavaModifiedUtf8(const char32_t* data, size_t len) {
 
 size_t DataOutput::getJavaModifiedUtf8EncodedLength(const char16_t* data,
                                                     size_t length) {
-  return internal::JavaModifiedUtf8::encodedLength(data, length);
+  return internalXYZ::JavaModifiedUtf8::encodedLength(data, length);
 }
 
 template <class _Traits, class _Allocator>

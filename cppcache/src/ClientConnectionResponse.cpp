@@ -23,7 +23,7 @@ namespace apache {
 namespace geode {
 namespace client {
 
-using internal::DSFid;
+using internalXYZ::DSFid;
 
 void ClientConnectionResponse::fromData(DataInput& input) {
   m_serverFound = input.readBoolean();

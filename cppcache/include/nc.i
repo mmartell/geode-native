@@ -1,3 +1,6 @@
+
+
+
 /* File : nc.i */
 
 %module nc
@@ -20,7 +23,7 @@
 #include <geode/CacheableBuiltins.hpp>
 #include <geode/Serializable.hpp>
 #include <geode/Serializer.hpp>
-/*#include <geode/CacheableKey.hpp>*/
+#include <geode/CacheableKey.hpp>
 #include <geode/internal/CacheableKeys.hpp>
 #include <geode/CacheableString.hpp>
 #include <geode/RegionShortcut.hpp>
@@ -49,7 +52,7 @@
 %include <geode/CacheableBuiltins.hpp>
 %include <geode/Serializable.hpp>
 %include <geode/Serializer.hpp>
-/*%include <geode/CacheableKey.hpp>*/
+%include <geode/CacheableKey.hpp>
 %include <geode/internal/CacheableKeys.hpp>
 %include <geode/CacheableString.hpp>
 %include <geode/RegionShortcut.hpp>

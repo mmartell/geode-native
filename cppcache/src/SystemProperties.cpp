@@ -253,7 +253,7 @@ template <class _Rep, class _Period>
 void SystemProperties::parseDurationProperty(
     const std::string& property, const std::string& value,
     std::chrono::duration<_Rep, _Period>& duration) {
-  using apache::geode::internal::chrono::duration::from_string;
+  using apache::geode::internalXYZ::chrono::duration::from_string;
   try {
     duration = from_string<std::chrono::duration<_Rep, _Period>>(value);
   } catch (std::invalid_argument&) {
@@ -363,7 +363,7 @@ void SystemProperties::processProperty(const std::string& property,
 }
 
 void SystemProperties::logSettings() {
-  using apache::geode::internal::chrono::duration::to_string;
+  using apache::geode::internalXYZ::chrono::duration::to_string;
 
   // *** PLEASE ADD IN ALPHABETICAL ORDER - USER VISIBLE ***
 

@@ -240,7 +240,7 @@ class APACHE_GEODE_EXPORT ExpiryTaskManager : public ACE_Task_Base {
       std::chrono::duration<ExpRep, ExpPeriod> expTime,
       std::chrono::duration<IntRep, IntPeriod> interval,
       bool cancelExistingTask = false) {
-    using ::apache::geode::internal::chrono::duration::to_string;
+    using ::apache::geode::internalXYZ::chrono::duration::to_string;
 
     LOGFINER(
         "ExpiryTaskManager: expTime %s, interval %s, cancelExistingTask %d",

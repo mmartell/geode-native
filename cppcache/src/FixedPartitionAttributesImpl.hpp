@@ -30,7 +30,7 @@ namespace apache {
 namespace geode {
 namespace client {
 
-class FixedPartitionAttributesImpl : public internal::DataSerializableInternal {
+class FixedPartitionAttributesImpl : public internalXYZ::DataSerializableInternal {
  private:
   std::string m_partitionName;
   bool m_isPrimary;

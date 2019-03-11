@@ -33,7 +33,7 @@ namespace testing {
 
 using apache::geode::client::Cacheable;
 using apache::geode::client::IllegalArgumentException;
-using apache::geode::client::internal::DSCode;
+using apache::geode::client::internalXYZ::DSCode;
 
 class CacheableWrapper {
  protected:

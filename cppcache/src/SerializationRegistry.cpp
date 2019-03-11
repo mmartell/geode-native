@@ -286,12 +286,12 @@ void SerializationRegistry::addDataSerializableFixedIdType(
 }
 
 void SerializationRegistry::addDataSerializableFixedIdType(
-    internal::DSFid id, TypeFactoryMethod func) {
+    internalXYZ::DSFid id, TypeFactoryMethod func) {
   theTypeMap.rebindDataSerializableFixedId(id, func);
 }
 
 void SerializationRegistry::removeDataSerializableFixeIdType(
-    internal::DSFid id) {
+    internalXYZ::DSFid id) {
   theTypeMap.unbindDataSerializableFixedId(id);
 }
 
@@ -484,14 +484,14 @@ void TheTypeMap::bindDataSerializableFixedId(TypeFactoryMethod func) {
   }
 }
 
-void TheTypeMap::rebindDataSerializableFixedId(internal::DSFid id,
+void TheTypeMap::rebindDataSerializableFixedId(internalXYZ::DSFid id,
                                                TypeFactoryMethod func) {
   std::lock_guard<util::concurrent::spinlock_mutex> guard(
       m_dataSerializableFixedIdMapLock);
   m_dataSerializableFixedIdMap[id] = func;
 }
 
-void TheTypeMap::unbindDataSerializableFixedId(internal::DSFid id) {
+void TheTypeMap::unbindDataSerializableFixedId(internalXYZ::DSFid id) {
   std::lock_guard<util::concurrent::spinlock_mutex> guard(
       m_dataSerializableFixedIdMapLock);
   m_dataSerializableFixedIdMap.erase(id);

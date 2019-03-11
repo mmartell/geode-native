@@ -44,7 +44,7 @@ class ClientReplacementRequest : public ClientConnectionRequest {
   ~ClientReplacementRequest() override = default;
 
   void toData(DataOutput& output) const override;
-  internal::DSFid getDSFID() const override;
+  internalXYZ::DSFid getDSFID() const override;
 
  private:
   const ServerLocation m_serverLocation;

@@ -23,7 +23,7 @@
 #include "../ByteArray.hpp"
 
 using apache::geode::client::ByteArray;
-using apache::geode::client::internal::JavaModifiedUtf8;
+using apache::geode::client::internalXYZ::JavaModifiedUtf8;
 
 TEST(JavaModifiedUtf8Tests, EncodedLengthFromUtf8) {
   EXPECT_EQ(27, JavaModifiedUtf8::encodedLength("You had me at meat tornado!"));

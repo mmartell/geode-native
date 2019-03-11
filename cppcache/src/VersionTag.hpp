@@ -28,7 +28,7 @@ namespace apache {
 namespace geode {
 namespace client {
 
-using internal::DSFid;
+using internalXYZ::DSFid;
 
 class RegionInternal;
 class CacheImpl;

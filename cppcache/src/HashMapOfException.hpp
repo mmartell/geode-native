@@ -29,8 +29,8 @@ namespace apache {
 namespace geode {
 namespace client {
 
-using internal::dereference_equal_to;
-using internal::dereference_hash;
+using internalXYZ::dereference_equal_to;
+using internalXYZ::dereference_hash;
 
 class CacheableKey;
 class Exception;

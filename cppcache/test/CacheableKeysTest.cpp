@@ -19,7 +19,7 @@
 
 #include <geode/internal/CacheableKeys.hpp>
 
-using apache::geode::client::internal::hashcode;
+using apache::geode::client::internalXYZ::hashcode;
 
 TEST(CacheableKeysTest, boolDifferentHashCodes) {
   EXPECT_NE(hashcode(false), hashcode(true))

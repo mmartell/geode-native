@@ -38,7 +38,7 @@ namespace apache {
 namespace geode {
 namespace client {
 
-using internal::DSFid;
+using internalXYZ::DSFid;
 
 class ThinClientRegion;
 
@@ -52,7 +52,7 @@ class ThinClientRegion;
  *
  *
  */
-class CacheableObjectPartList : public internal::DataSerializableFixedId {
+class CacheableObjectPartList : public internalXYZ::DataSerializableFixedId {
  protected:
   const std::vector<std::shared_ptr<CacheableKey>>* m_keys;
   uint32_t* m_keysOffset;

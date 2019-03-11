@@ -25,7 +25,7 @@ namespace apache {
 namespace geode {
 namespace client {
 
-using internal::DSFid;
+using internalXYZ::DSFid;
 
 void QueueConnectionResponse::fromData(DataInput& input) {
   m_durableQueueFound = input.readBoolean();

@@ -47,19 +47,19 @@
 namespace std {
 
 template <>
-struct hash<apache::geode::client::internal::DSCode>
-    : public std::unary_function<apache::geode::client::internal::DSCode,
+struct hash<apache::geode::client::internalXYZ::DSCode>
+    : public std::unary_function<apache::geode::client::internalXYZ::DSCode,
                                  size_t> {
-  size_t operator()(apache::geode::client::internal::DSCode val) const {
+  size_t operator()(apache::geode::client::internalXYZ::DSCode val) const {
     return std::hash<int32_t>{}(static_cast<int32_t>(val));
   }
 };
 
 template <>
-struct hash<apache::geode::client::internal::DSFid>
-    : public std::unary_function<apache::geode::client::internal::DSFid,
+struct hash<apache::geode::client::internalXYZ::DSFid>
+    : public std::unary_function<apache::geode::client::internalXYZ::DSFid,
                                  size_t> {
-  size_t operator()(apache::geode::client::internal::DSFid val) const {
+  size_t operator()(apache::geode::client::internalXYZ::DSFid val) const {
     return std::hash<int32_t>{}(static_cast<int32_t>(val));
   }
 };
@@ -70,15 +70,15 @@ namespace apache {
 namespace geode {
 namespace client {
 
-using internal::DataSerializableInternal;
-using internal::DataSerializablePrimitive;
+using internalXYZ::DataSerializableInternal;
+using internalXYZ::DataSerializablePrimitive;
 
 class TheTypeMap : private NonCopyable {
  private:
-  std::unordered_map<internal::DSCode, TypeFactoryMethod>
+  std::unordered_map<internalXYZ::DSCode, TypeFactoryMethod>
       m_dataSerializablePrimitiveMap;
   std::unordered_map<int32_t, TypeFactoryMethod> m_dataSerializableMap;
-  std::unordered_map<internal::DSFid, TypeFactoryMethod>
+  std::unordered_map<internalXYZ::DSFid, TypeFactoryMethod>
       m_dataSerializableFixedIdMap;
   std::unordered_map<std::string, TypeFactoryMethodPdx> m_pdxSerializableMap;
   mutable util::concurrent::spinlock_mutex m_dataSerializablePrimitiveMapLock;
@@ -106,15 +106,15 @@ class TheTypeMap : private NonCopyable {
 
   void unbindDataSerializable(int32_t id);
 
-  void findDataSerializableFixedId(internal::DSFid id,
+  void findDataSerializableFixedId(internalXYZ::DSFid id,
                                    TypeFactoryMethod& func) const;
 
   void bindDataSerializableFixedId(TypeFactoryMethod func);
 
-  void rebindDataSerializableFixedId(internal::DSFid id,
+  void rebindDataSerializableFixedId(internalXYZ::DSFid id,
                                      TypeFactoryMethod func);
 
-  void unbindDataSerializableFixedId(internal::DSFid id);
+  void unbindDataSerializableFixedId(internalXYZ::DSFid id);
 
   void bindPdxSerializable(TypeFactoryMethodPdx func);
 
@@ -246,10 +246,10 @@ class APACHE_GEODE_EXPORT SerializationRegistry {
 
   void addDataSerializableFixedIdType(TypeFactoryMethod func);
 
-  void addDataSerializableFixedIdType(internal::DSFid id,
+  void addDataSerializableFixedIdType(internalXYZ::DSFid id,
                                       TypeFactoryMethod func);
 
-  void removeDataSerializableFixeIdType(internal::DSFid id);
+  void removeDataSerializableFixeIdType(internalXYZ::DSFid id);
 
   void setDataSerializablePrimitiveType(TypeFactoryMethod func, DSCode dsCode);
 

@@ -41,7 +41,7 @@ class ClientConnectionRequest : public ServerLocationRequest {
         m_servergroup(servergroup),
         m_excludeServergroup_serverLocation(excludeServergroup) {}
   void toData(DataOutput& output) const override;
-  internal::DSFid getDSFID() const override;
+  internalXYZ::DSFid getDSFID() const override;
   std::string getServerGroup() const { return m_servergroup; }
   const std::set<ServerLocation>& getExcludedServerGroup() const {
     return m_excludeServergroup_serverLocation;

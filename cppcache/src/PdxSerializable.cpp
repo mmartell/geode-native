@@ -32,7 +32,7 @@ bool PdxSerializable::operator==(const CacheableKey& other) const {
 }
 
 int32_t PdxSerializable::hashcode() const {
-  return internal::hashcode(
+  return internalXYZ::hashcode(
       static_cast<int64_t>(reinterpret_cast<uintptr_t>(this)));
 }
 

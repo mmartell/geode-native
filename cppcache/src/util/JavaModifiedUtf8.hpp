@@ -29,7 +29,7 @@
 namespace apache {
 namespace geode {
 namespace client {
-namespace internal {
+namespace internalXYZ {
 
 struct JavaModifiedUtf8 {
   /**
@@ -174,7 +174,7 @@ struct JavaModifiedUtf8 {
   }
 };
 
-}  // namespace internal
+}  // namespace internalXYZ
 }  // namespace client
 }  // namespace geode
 }  // namespace apache

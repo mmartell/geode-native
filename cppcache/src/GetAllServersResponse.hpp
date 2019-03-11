@@ -33,8 +33,8 @@ namespace apache {
 namespace geode {
 namespace client {
 
-class GetAllServersResponse : public internal::DataSerializableFixedId_t<
-                                  internal::DSFid::GetAllServersResponse> {
+class GetAllServersResponse : public internalXYZ::DataSerializableFixedId_t<
+                                  internalXYZ::DSFid::GetAllServersResponse> {
   std::vector<std::shared_ptr<ServerLocation> > m_servers;
 
  public:

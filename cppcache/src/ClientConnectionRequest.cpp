@@ -29,8 +29,8 @@ void ClientConnectionRequest::toData(DataOutput& output) const {
   writeSetOfServerLocation(output);
 }
 
-internal::DSFid ClientConnectionRequest::getDSFID() const {
-  return internal::DSFid::ClientConnectionRequest;
+internalXYZ::DSFid ClientConnectionRequest::getDSFID() const {
+  return internalXYZ::DSFid::ClientConnectionRequest;
 }
 
 void ClientConnectionRequest::writeSetOfServerLocation(

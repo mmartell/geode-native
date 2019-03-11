@@ -21,7 +21,7 @@
 
 #include <geode/internal/functional.hpp>
 
-using apache::geode::client::internal::geode_hash;
+using apache::geode::client::internalXYZ::geode_hash;
 
 TEST(string, geode_hash) {
   auto&& hash = geode_hash<std::string>{};

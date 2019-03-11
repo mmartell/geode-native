@@ -23,7 +23,7 @@
 
 using apache::geode::client::to_utf16;
 using apache::geode::client::to_utf8;
-using apache::geode::client::internal::geode_hash;
+using apache::geode::client::internalXYZ::geode_hash;
 
 template <class ToString, class FromString>
 ToString convert(const FromString& from);

@@ -30,8 +30,8 @@ namespace apache {
 namespace geode {
 namespace client {
 
-class ClientHealthStats : public internal::DataSerializableFixedId_t<
-                              internal::DSFid::ClientHealthStats> {
+class ClientHealthStats : public internalXYZ::DataSerializableFixedId_t<
+                              internalXYZ::DSFid::ClientHealthStats> {
  public:
   void toData(DataOutput& output) const override;
 

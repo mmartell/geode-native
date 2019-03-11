@@ -80,7 +80,7 @@ CacheHelper *getHelper() {
   return cacheHelper;
 }
 void printAttribute(RegionAttributes attr) {
-  using apache::geode::internal::chrono::duration::to_string;
+  using apache::geode::internalXYZ::chrono::duration::to_string;
 
   printf("CachingEnable: %s\n",
          attr.getCachingEnabled() ? "enabled" : "disabled");

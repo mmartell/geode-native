@@ -33,7 +33,7 @@
 #include "locator_globals.hpp"
 #include "LocatorHelper.hpp"
 
-using apache::geode::client::internal::DSCode;
+using apache::geode::client::internalXYZ::DSCode;
 
 using apache::geode::client::testing::CacheableWrapper;
 using apache::geode::client::testing::CacheableWrapperFactory;

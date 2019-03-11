@@ -38,7 +38,7 @@ struct assert_bounds {
   template <class Rep, class Period>
   inline void operator()(const std::chrono::duration<Rep, Period> value) const {
     using apache::geode::client::IllegalArgumentException;
-    using apache::geode::internal::chrono::duration::to_string;
+    using apache::geode::internalXYZ::chrono::duration::to_string;
 
     /* Visual C++ library fails to account for overflow when comparing durations
      * of different periods. To compensate we convert the bounds into the

@@ -91,7 +91,7 @@ bool checkPoolAttribs(std::shared_ptr<Pool> pool, SLIST &locators,
                       int subscriptionAckInterval, int subscriptionRedundancy,
                       int statisticInterval, bool prSingleHopEnabled,
                       int updateLocatorListInterval) {
-  using apache::geode::internal::chrono::duration::to_string;
+  using apache::geode::internalXYZ::chrono::duration::to_string;
 
   char logmsg[500] = {0};
 

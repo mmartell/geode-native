@@ -32,7 +32,7 @@ namespace apache {
 namespace geode {
 namespace client {
 
-using internal::DSFid;
+using internalXYZ::DSFid;
 
 class ClientProxyMembershipID;
 
@@ -94,7 +94,7 @@ class ClientProxyMembershipID : public DSMemberForVersionStamp {
           std::snprintf(hostInfo + offset, 255 - offset, ":%x", m_hostAddr[i]);
     }
     result +=
-        internal::geode_hash<std::string>{}(std::string(hostInfo, offset));
+        internalXYZ::geode_hash<std::string>{}(std::string(hostInfo, offset));
     result += m_hostPort;
     return result;
   }
