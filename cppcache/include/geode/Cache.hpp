@@ -250,7 +250,7 @@ class APACHE_GEODE_EXPORT Cache : public GeodeCache {
   /**
    * @brief constructors
    */
-  Cache();
+  //Cache();
 
   std::unique_ptr<CacheImpl> m_cacheImpl;
 
