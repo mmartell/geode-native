@@ -30,16 +30,18 @@
 #include <geode/PdxInstanceFactory.hpp>
 #include <geode/RegionService.hpp>
 #include <geode/GeodeCache.hpp>
-#include <geode/Cache.hpp>
+//#include <geode/Cache.hpp>
 #include <geode/CacheAttributes.hpp>
 #include <geode/Pool.hpp>
 #include <geode/PoolFactory.hpp>
 #include <geode/CacheFactory.hpp>
+#include <geode/Properties.hpp>
+
+using namespace apache::geode::client;
 
 %}
 
-/* %include <iostream> */
-
+/*
 %include "c:/geode-native/build/cppcache/apache-geode_export.h"
 %include <geode/internal/geode_base.hpp>
 %include <geode/internal/geode_globals.hpp>
@@ -62,12 +64,17 @@
 %include <geode/PdxInstance.hpp>
 %include <geode/PdxInstanceFactory.hpp>
 %include <geode/RegionService.hpp>
-%include <geode/GeodeCache.hpp>
+%include <geode/GeodeCache.hp
 %include <geode/Cache.hpp>
 %include <geode/CacheAttributes.hpp>
 %include <geode/Pool.hpp>
 %include <geode/PoolFactory.hpp>
+*/
+
 %include <geode/CacheFactory.hpp>
+//%include <geode/Cache.hpp>
+//%include <geode/Properties.hpp>
+
 
 
 
