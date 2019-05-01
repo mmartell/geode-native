@@ -30,7 +30,7 @@
 #include <geode/PdxInstanceFactory.hpp>
 #include <geode/RegionService.hpp>
 #include <geode/GeodeCache.hpp>
-//#include <geode/Cache.hpp>
+#include <geode/Cache.hpp>
 #include <geode/CacheAttributes.hpp>
 #include <geode/Pool.hpp>
 #include <geode/PoolFactory.hpp>
@@ -71,8 +71,8 @@ using namespace apache::geode::client;
 %include <geode/PoolFactory.hpp>
 */
 
+%include <geode/Cache.hpp>
 %include <geode/CacheFactory.hpp>
-//%include <geode/Cache.hpp>
 //%include <geode/Properties.hpp>
 
 
