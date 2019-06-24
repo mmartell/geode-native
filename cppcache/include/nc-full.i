@@ -110,8 +110,10 @@
 %}
 
 %include "c:/geode-native/build/cppcache/apache-geode_export.h"
+%include <geode/internal/CacheableKeys.hpp>
+%include <geode/CacheableBuiltins.hpp>
 %include <geode/Serializable.hpp>
-%include <geode/Serializer.hpp>
+//%include <geode/Serializer.hpp>
 %include <geode/CacheableKey.hpp>
 %include <geode/internal/DSCode.hpp>
 %include <geode/util/LogLevel.hpp>
@@ -124,7 +126,6 @@
 %include <geode/CacheableObjectArray.hpp>
 %include <geode/CacheableString.hpp>
 %include <geode/CacheableUndefined.hpp>
-%include <geode/CacheableBuiltins.hpp>
 %include <geode/Properties.hpp>
 %include <geode/SystemProperties.hpp>
 %include <geode/ExpirationAction.hpp>
@@ -146,13 +147,17 @@
 %include <geode/PdxWriter.hpp>
 %include <geode/PdxReader.hpp>
 %include <geode/PdxInstance.hpp>
+%include <geode/AuthenticatedView.hpp>
 %include <geode/PdxInstanceFactory.hpp>
 %include <geode/PdxSerializable.hpp>
 %include <geode/PdxSerializer.hpp>
 %include <geode/PdxUnreadFields.hpp>
 %include <geode/PdxWrapper.hpp>
-%include <geode/AuthenticatedView.hpp>
 %include <geode/TransactionId.hpp>
+%include <geode/RegionFactory.hpp>
+%include <geode/RegionService.hpp>
+%include <geode/RegionShortcut.hpp>
+%include <geode/Region.hpp>
 %include <geode/Cache.hpp>
 %include <geode/CacheFactory.hpp>
 %include <geode/CacheListener.hpp>
@@ -185,14 +190,10 @@
 %include <geode/PersistenceManager.hpp>
 %include <geode/PoolFactory.hpp>
 %include <geode/PoolManager.hpp>
-%include <geode/Region.hpp>
 %include <geode/RegionAttributes.hpp>
 %include <geode/RegionAttributesFactory.hpp>
 %include <geode/RegionEntry.hpp>
 %include <geode/RegionEvent.hpp>
-%include <geode/RegionFactory.hpp>
-%include <geode/RegionService.hpp>
-%include <geode/RegionShortcut.hpp>
 %include <geode/ResultSet.hpp>
 %include <geode/Serializer.hpp>
 %include <geode/Struct.hpp>

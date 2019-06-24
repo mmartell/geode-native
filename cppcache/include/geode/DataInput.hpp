@@ -368,7 +368,7 @@ class APACHE_GEODE_EXPORT DataInput {
 
   inline std::vector<char16_t> readCharArray() { return readArray<char16_t>(); }
 
-  inline std::vector<bool> readBooleanArray() { return readArray<bool>(); }
+  //inline std::vector<bool> readBooleanArray() { return readArray<bool>(); }
 
   inline std::vector<int8_t> readByteArray() { return readArray<int8_t>(); }
 

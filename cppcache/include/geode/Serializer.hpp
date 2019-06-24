@@ -144,10 +144,10 @@ inline void readObject(apache::geode::client::DataInput& input, bool& value) {
   value = input.readBoolean();
 }
 
-inline void readObject(apache::geode::client::DataInput& input,
-                       std::vector<bool>::reference value) {
-  value = input.readBoolean();
-}
+//inline void readObject(apache::geode::client::DataInput& input,
+//                       std::vector<bool>::reference value) {
+//  value = input.readBoolean();
+//}
 
 inline void writeObject(apache::geode::client::DataOutput& output,
                         double value) {
@@ -228,19 +228,19 @@ inline void writeArrayObject(apache::geode::client::DataOutput& output,
   }
 }
 
-template <typename TObj>
-inline std::vector<TObj> readArrayObject(
-    apache::geode::client::DataInput& input) {
-  std::vector<TObj> array;
-  int len = input.readArrayLength();
-  if (len >= 0) {
-    array.resize(len);
-    for (auto&& obj : array) {
-      readObject(input, obj);
-    }
-  }
-  return array;
-}
+//template <typename TObj>
+//inline std::vector<TObj> readArrayObject(
+//    apache::geode::client::DataInput& input) {
+//  std::vector<TObj> array;
+//  int len = input.readArrayLength();
+//  if (len >= 0) {
+//    array.resize(len);
+//    for (auto&& obj : array) {
+//      readObject(input, obj);
+//    }
+//  }
+//  return array;
+//}
 
 template <typename TObj, typename TLen>
 inline void readObject(apache::geode::client::DataInput& input, TObj*& array,
