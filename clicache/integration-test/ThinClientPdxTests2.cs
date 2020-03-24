@@ -263,8 +263,7 @@ namespace Apache.Geode.Client.UnitTests
 
       region0[1] = new PdxTypes1();
       region0[2] = new PdxType();
-      //var ret = region0[1];
-      //ret = region0[2];
+      
       Util.Log("Put from pool-2 completed");
 
       var pdxIds = CacheHelper.DCache.GetPdxTypeRegistry().testGetNumberOfPdxIds();
