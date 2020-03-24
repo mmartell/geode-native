@@ -853,7 +853,6 @@ namespace Apache.Geode.Client.UnitTests
       PdxType.GenericCompare((bool[]) ret.GetField("m_boolArray"), dPdxType.BoolArray);
 
       PdxType.GenericValCompare((byte)(sbyte)(ret.GetField("m_byte")), dPdxType.Byte);
-      //PdxType.GenericValCompare(ret.GetField("m_byteArray").ToString(), dPdxType.ByteArray.ToString());
       PdxType.GenericValCompare(string.Join(",", (byte[])ret.GetField("m_byteArray")), string.Join(",", dPdxType.ByteArray));
 
       var tmpl = (List<object>) ret.GetField("m_arraylist");
