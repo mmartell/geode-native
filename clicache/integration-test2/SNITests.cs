@@ -33,36 +33,24 @@ namespace Apache.Geode.Client.IntegrationTests
         string currentWorkingDirectory;
         Process dockerComposeProcess;
         Process dockerProcess;
+        private readonly Cache cache_;
 
         public SNITests(ITestOutputHelper testOutputHelper) : base(testOutputHelper)
         {
             certificatePassword = "apachegeode";
             currentWorkingDirectory = Directory.GetCurrentDirectory();
+            var clientTruststore = currentWorkingDirectory + "/sni-test-config/geode-config/truststore.jks";
 
+            var cacheFactory = new CacheFactory();
+            cacheFactory.Set("log-level", "DEBUG");
+            cacheFactory.Set("ssl-enabled", "true");
+            cacheFactory.Set("ssl-keystore-password", certificatePassword);
+            cacheFactory.Set("ssl-truststore", clientTruststore);
 
-            //var systemRVal = 0;
+            cache_ = cacheFactory.Create();
+
             string sniDir = Directory.GetCurrentDirectory() + "/../sni-test-config";
             Directory.SetCurrentDirectory(sniDir);
-
-
-            //systemRVal = std::system("docker-compose up -d");
-
-            //var proc = new Process
-            //{
-            //    StartInfo = new ProcessStartInfo
-            //    {
-            //        FileName = @"C:\Program Files\docker\docker\resources\bin\docker-compose.exe",
-            //        Arguments = "up -d",
-            //        //UseShellExecute = true,
-            //        RedirectStandardOutput = true,
-            //        RedirectStandardError = true,
-            //        CreateNoWindow = true,
-            //        //WorkingDirectory = @"C:\MyAndroidApp\"
-            //    }
-            //};
-            //
-            //proc.Start();
-
 
             dockerComposeProcess = Process.Start(@"C:\Program Files\docker\docker\resources\bin\docker-compose.exe", "up -d");
             dockerProcess = Process.Start(@"C:\Program Files\Docker\Docker\resources\bin\docker", "exec -t geode gfsh run --file=/geode/scripts/geode-starter.gfsh");
@@ -72,113 +60,67 @@ namespace Apache.Geode.Client.IntegrationTests
         {
             dockerComposeProcess.Close();
             dockerProcess.Close();
+            cache_.Close();
         }
 
-        private string makeItSo(const char* command)
+        private string MakeItSo(string dockerCommand)
         {
-            std::string commandOutput;
-        #if defined(_WIN32)
-            std::unique_ptr<FILE, decltype(&_pclose)> pipe(_popen(command, "r"),
-                                                           _pclose);
-        #else
-                std::unique_ptr<FILE, decltype(&pclose) > pipe(popen(command, "r"), pclose);
-        #endif
-            std::array<char, 128 > charBuff;
-            if (!pipe)
-            {
-                throw std::runtime_error("Failed on the POPEN");
-            }
-            while (fgets(charBuff.data(), charBuff.size(), pipe.get()) != nullptr)
-            {
-                commandOutput += charBuff.data();
-            }
-            return commandOutput;
+            Process docker = Process.Start(@"C:\Program Files\Docker\Docker\resources\bin\docker", dockerCommand);
+            string result = docker.StandardOutput.ReadLine();
+            return result;
         }
 
-        private int parseProxyPort(std::string proxyString)
+        private int ParseProxyPort(string proxyString)
         {
             // 15443/tcp -> 0.0.0.0:32787
-            std::size_t colonPosition = proxyString.find(":");
-            std::string portNumberString = proxyString.substr((colonPosition + 1));
-            return stoi(portNumberString);
+            int colonPosition = proxyString.IndexOf(":");
+            string portNumberString = proxyString.Substring(colonPosition + 1);
+            return Int32.Parse(portNumberString);
         }
 
         [Fact(Skip = "Disabled until SNI Proxy Available")]
-        public void connectViaProxyTest()
+        public void ConnectViaProxyTest()
         {
-            const auto clientTruststore =
-                (currentWorkingDirectory /
-                 boost::filesystem::path("sni-test-config/geode-config/truststore.jks"));
+            var portString = MakeItSo("port haproxy");
+            var portNumber = ParseProxyPort(portString);
 
-            auto cache = CacheFactory()
-                             .set("log-level", "DEBUG")
-                             .set("ssl-enabled", "true")
-                             .set("ssl-truststore", clientTruststore.string())
-                             .create();
+            cache_.GetPoolManager()
+                .CreateFactory()
+                .AddLocator("localhost", portNumber)
+                .Create("pool");
 
-            auto portString = makeItSo("docker port haproxy");
-            auto portNumber = parseProxyPort(portString);
+            var region = cache_.CreateRegionFactory(RegionShortcut.PROXY)
+                              .SetPoolName("pool")
+                              .Create<string, string>("region");
 
-            cache.getPoolManager()
-                .createFactory()
-                .addLocator("localhost", portNumber)
-                .create("pool");
+            region.Put("1", "one");
+            var value = region.Get("1");
 
-            auto region = cache.createRegionFactory(RegionShortcut::PROXY)
-                              .setPoolName("pool")
-                              .create("region");
-
-            region->put("1", "one");
-
-            cache.close();
+            Assert.Equal("one", value);
         }
 
         [Fact]
-        void public connectionFailsTest()
+        public void ConnectionFailsTest()
         {
-            const auto clientTruststore =
-                (currentWorkingDirectory /
-                 boost::filesystem::path("sni-test-config/geode-config/truststore.jks"));
+            cache_.GetPoolManager()
+                .CreateFactory()
+                .AddLocator("localhost", 10334)
+                .Create("pool");
 
-            auto cache = CacheFactory()
-                             .set("log-level", "DEBUG")
-                             .set("ssl-enabled", "true")
-                             .set("ssl-truststore", clientTruststore.string())
-                             .create();
+            var region = cache_.CreateRegionFactory(RegionShortcut.PROXY)
+                              .SetPoolName("pool")
+                              .Create<string, string>("region");
 
-            cache.getPoolManager()
-                .createFactory()
-                .addLocator("localhost", 10334)
-                .create("pool");
-
-            auto region = cache.createRegionFactory(RegionShortcut::PROXY)
-                              .setPoolName("pool")
-                              .create("region");
-            EXPECT_THROW(region->put("1", "one"),
-                         apache::geode::client::NotConnectedException);
-
-            cache.close();
+            Assert.Throws<NotConnectedException>(() => region.Put("1", "one"));
         }
 
         [Fact]
-        public void doNothingTest()
+        public void DoNothingTest()
         {
-            const auto clientTruststore =
-                (currentWorkingDirectory /
-                 boost::filesystem::path("sni-test-config/geode-config/truststore.jks"));
-
-            auto cache = CacheFactory()
-                             .set("log-level", "DEBUG")
-                             .set("ssl-enabled", "true")
-                             .set("ssl-truststore", clientTruststore.string())
-                             .create();
-
-            cache.getPoolManager()
-                .createFactory()
-                .addLocator("localhost", 10334)
-                .create("pool");
-
-            cache.close();
+            cache_.GetPoolManager()
+                .CreateFactory()
+                .AddLocator("localhost", 10334)
+                .Create("pool");
         }
-
+    }
 }
