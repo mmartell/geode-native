@@ -23,3 +23,4 @@ choco install nsis -confirm
 choco install patch -confirm
 choco install gnuwin32-coreutils.portable -confirm
 choco install nuget.commandline -confirm
+choco install docker-desktop -confirm
