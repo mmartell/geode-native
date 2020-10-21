@@ -20,44 +20,83 @@ using System.IO;
 using Xunit;
 using System.Diagnostics;
 using System.Threading;
+using System.Collections.Generic;
+
 using Xunit.Abstractions;
 
 namespace Apache.Geode.Client.IntegrationTests
 {
-    public class QueryOrder : IPdxSerializable
+  public class Leg : IPdxSerializable
+  {
+    public string Side { get; set; }
+    public decimal Size { get; set; }
+    public string ValueDate { get; set; }
+
+    public void ToData(IPdxWriter writer)
+    {
+      writer.WriteString("Side", Side);
+      writer.WriteDouble("Size", Convert.ToDouble(Size));
+      writer.WriteString("ValueDate", ValueDate);
+    }
+
+    public void FromData(IPdxReader reader)
+    {
+      Side = reader.ReadString("Side");
+      Size = (decimal)reader.ReadDouble("Size");
+      ValueDate = reader.ReadString("ValueDate");
+    }
+
+    public static IPdxSerializable CreateDeserializable()
+    {
+      return new Leg();
+    }
+
+    public Leg() { }
+  }
+
+  public class QueryOrder : IPdxSerializable
     {
         private const string ORDER_ID_KEY_ = "order_id";
         private const string NAME_KEY_ = "name";
         private const string QUANTITY_KEY_ = "quantity";
+        private const string LEGS_KEY_ = "legs";
         public long OrderId { get; set; }
         public string Name { get; set; }
         public short Quantity { get; set; }
-        // A default constructor is required for deserialization
-        public QueryOrder() { }
-        public QueryOrder(int orderId, string name, short quantity)
+        private Leg[] Legs { get; set; }
+
+    // A default constructor is required for deserialization
+    public QueryOrder() { }
+        public QueryOrder(int orderId, string name, short quantity, Leg[] legs)
         {
             OrderId = orderId;
             Name = name;
             Quantity = quantity;
+            Legs = legs;
         }
         public override string ToString()
         {
-            return string.Format("Order: [{0}, {1}, {2}]", OrderId, Name, Quantity);
+            return string.Format("Order: [{0}, {1}, {2}, {3}]", OrderId, Name, Quantity, Legs);
         }
         public void ToData(IPdxWriter output)
         {
-            output.WriteLong(ORDER_ID_KEY_, OrderId);
-            output.MarkIdentityField(ORDER_ID_KEY_);
-            output.WriteString(NAME_KEY_, Name);
-            output.MarkIdentityField(NAME_KEY_);
-            output.WriteInt(QUANTITY_KEY_, Quantity);
-            output.MarkIdentityField(QUANTITY_KEY_);
-        }
+          output.WriteLong(ORDER_ID_KEY_, OrderId);
+          output.MarkIdentityField(ORDER_ID_KEY_);
+          output.WriteString(NAME_KEY_, Name);
+          output.MarkIdentityField(NAME_KEY_);
+          output.WriteInt(QUANTITY_KEY_, Quantity);
+          output.MarkIdentityField(QUANTITY_KEY_);  
+
+          List<object> listOfLegs = new List<object>(Legs);
+          output.WriteObjectArray(LEGS_KEY_, listOfLegs);
+    }
         public void FromData(IPdxReader input)
         {
             OrderId = input.ReadLong(ORDER_ID_KEY_);
             Name = input.ReadString(NAME_KEY_);
             Quantity = (short)input.ReadInt(QUANTITY_KEY_);
+
+            List<object> listOfLegs = input.ReadObjectArray(LEGS_KEY_);
         }
         public static IPdxSerializable CreateDeserializable()
         {
@@ -97,9 +136,26 @@ namespace Apache.Geode.Client.IntegrationTests
                     var region = regionFactory.Create<string, QueryOrder>("cqTestRegion");
 
                     Debug.WriteLine("Putting and changing Position objects in the region");
-                    var order1 = new QueryOrder(1, "product x", 23);
-                    var order2 = new QueryOrder(2, "product y", 37);
-                    var order3 = new QueryOrder(3, "product z", 101);
+                    Leg leg1 = new Leg();
+                    leg1.Side = "leg1";
+                    leg1.Size = 1.111m;
+                    leg1.ValueDate = "valuedate Oct";
+
+                    Leg leg2 = new Leg();
+                    leg1.Side = "leg2";
+                    leg1.Size = 1.222m;
+                    leg1.ValueDate = "valuedate Nov";
+
+                    Leg leg3 = new Leg();
+                    leg1.Side = "leg3";
+                    leg1.Size = 1.333m;
+                    leg1.ValueDate = "valuedate Dec";
+
+                    Leg[] legs = {leg1, leg2, leg3};
+
+                    var order1 = new QueryOrder(1, "product x", 23, legs);
+                    var order2 = new QueryOrder(2, "product y", 37, legs);
+                    var order3 = new QueryOrder(3, "product z", 101, legs);
 
                     region.Put("order1", order1);
 
