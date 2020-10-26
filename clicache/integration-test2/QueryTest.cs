@@ -85,20 +85,26 @@ namespace Apache.Geode.Client.IntegrationTests
           output.WriteString(NAME_KEY_, Name);
           output.MarkIdentityField(NAME_KEY_);
           output.WriteInt(QUANTITY_KEY_, Quantity);
-          output.MarkIdentityField(QUANTITY_KEY_);  
+          output.MarkIdentityField(QUANTITY_KEY_);
 
-          List<object> listOfLegs = new List<object>(Legs);
-          output.WriteObjectArray(LEGS_KEY_, listOfLegs);
-    }
+          //List<object> listOfLegs = new List<object>(Legs);
+          output.WriteObject(LEGS_KEY_, Legs);
+        }
         public void FromData(IPdxReader input)
         {
             OrderId = input.ReadLong(ORDER_ID_KEY_);
             Name = input.ReadString(NAME_KEY_);
             Quantity = (short)input.ReadInt(QUANTITY_KEY_);
 
-            List<object> listOfLegs = input.ReadObjectArray(LEGS_KEY_);
-        }
-        public static IPdxSerializable CreateDeserializable()
+            //List<object> listOfLegs = input.ReadObjectArray(LEGS_KEY_);
+            //for (int i=0; i<listOfLegs.Count; i++)
+            //{
+            //  Legs[i] = ((Leg)listOfLegs[i]).FromData(input);
+            //}
+            Legs = (Leg[])input.ReadObject(LEGS_KEY_);
+
+    }
+    public static IPdxSerializable CreateDeserializable()
         {
             return new QueryOrder();
         }
@@ -129,8 +135,10 @@ namespace Apache.Geode.Client.IntegrationTests
                 {
 
                     cache.TypeRegistry.RegisterPdxType(QueryOrder.CreateDeserializable);
+                    cache.TypeRegistry.RegisterPdxType(Leg.CreateDeserializable);
 
-                    var regionFactory = cache.CreateRegionFactory(RegionShortcut.PROXY)
+
+          var regionFactory = cache.CreateRegionFactory(RegionShortcut.PROXY)
                         .SetPoolName("default");
 
                     var region = regionFactory.Create<string, QueryOrder>("cqTestRegion");
