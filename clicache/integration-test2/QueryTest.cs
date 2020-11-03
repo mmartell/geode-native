@@ -88,7 +88,8 @@ namespace Apache.Geode.Client.IntegrationTests
           output.MarkIdentityField(QUANTITY_KEY_);
 
           //List<object> listOfLegs = new List<object>(Legs);
-          output.WriteObject(LEGS_KEY_, Legs);
+          //output.WriteObject(LEGS_KEY_, Legs);
+          output.WriteObjectArray(LEGS_KEY_, Legs);
         }
         public void FromData(IPdxReader input)
         {
@@ -150,14 +151,14 @@ namespace Apache.Geode.Client.IntegrationTests
                     leg1.ValueDate = "valuedate Oct";
 
                     Leg leg2 = new Leg();
-                    leg1.Side = "leg2";
-                    leg1.Size = 1.222m;
-                    leg1.ValueDate = "valuedate Nov";
+                    leg2.Side = "leg2";
+                    leg2.Size = 1.222m;
+                    leg2.ValueDate = "valuedate Nov";
 
                     Leg leg3 = new Leg();
-                    leg1.Side = "leg3";
-                    leg1.Size = 1.333m;
-                    leg1.ValueDate = "valuedate Dec";
+                    leg3.Side = "leg3";
+                    leg3.Size = 1.333m;
+                    leg3.ValueDate = "valuedate Dec";
 
                     Leg[] legs = {leg1, leg2, leg3};
 
