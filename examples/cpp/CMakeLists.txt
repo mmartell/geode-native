@@ -33,6 +33,9 @@ endfunction()
 add_example(NAME authinitialize
 	SOURCE main.cpp exampleAuthInitialize.hpp exampleAuthInitialize.cpp)
 
+add_example(NAME classaskey
+    SOURCE main.cpp PhotosKey.cpp PhotosKey.hpp PhotosValue.cpp PhotosValue.hpp)
+
 add_example(NAME continuousquery
     SOURCE main.cpp Order.cpp Order.hpp)
 
