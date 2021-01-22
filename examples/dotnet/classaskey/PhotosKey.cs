@@ -29,7 +29,8 @@ namespace Apache.Geode.Examples.ClassAsKey
     // A default constructor is required for deserialization
     public PhotosKey() { }
 
-    public PhotosKey(List<CacheableString> names, CacheableDate start, CacheableDate end)
+    public PhotosKey(
+      List<CacheableString> names, CacheableDate start, CacheableDate end)
     {
       people = names;
       rangeStart = start;
@@ -42,7 +43,7 @@ namespace Apache.Geode.Examples.ClassAsKey
       for (int i = 0; i < people.Count; i++)
       {
         result += people[i];
-        if (i<people.Count-1)
+        if (i < people.Count - 1)
           result += ", ";
       }
       result += "} from ";
