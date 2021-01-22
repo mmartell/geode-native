@@ -25,31 +25,32 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cs.in ${CMAKE_CURRENT_BINARY_D
 
 add_library( ${PROJECT_NAME} SHARED
   Framework.cs
+  AutoSerializationTests.cs
+  cache.xml
+  CacheXml.cs
+  CacheXmlTests.cs
   Cluster.cs
   ClusterTest.cs
   Config.cs.in
   ${CMAKE_CURRENT_BINARY_DIR}/Config.cs
-  DataInputTest.cs
-  GfshTest.cs
-  GfshExecuteTest.cs
-  Gfsh.cs
-  GfshExecute.cs
-  CacheXml.cs
-  CacheXmlTests.cs
   CqOperationTest.cs
+  DataInputTest.cs
   FunctionExecutionTest.cs
+  geode.properties
+  Gfsh.cs
+  GfshExecuteTest.cs
+  GfshTest.cs
+  GfshExecute.cs
+  packages.config
+  PoolTest.cs
+  Position.cs
+  PositionKey.cs
   QueryTest.cs
   RegionTest.cs
   RegionSSLTest.cs
-  Position.cs
-  PositionKey.cs
-  TestBase.cs
-  cache.xml
-  geode.properties
-  xunit.runner.json
-  packages.config
-  AutoSerializationTests.cs
   SerializationTests.cs
+  TestBase.cs
+  xunit.runner.json
 )
 
 set_source_files_properties(
