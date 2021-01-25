@@ -38,8 +38,8 @@ add_executable(cpp-integration-test
   Order.hpp
   Position.cpp
   Position.hpp
-  PositionKey.cpp
-  PositionKey.hpp
+  PhotosKey.cpp
+  PhotosKey.hpp
   RegionGetAllTest.cpp
   RegionPutAllTest.cpp
   RegionPutGetAllTest.cpp
@@ -57,6 +57,8 @@ add_executable(cpp-integration-test
   PdxInstanceFactoryTest.cpp
   CacheWriterTest.cpp
   TransactionsTest.cpp
+  PhotosValue.cpp
+  PhotosValue.hpp
 )
 
 target_compile_definitions(cpp-integration-test

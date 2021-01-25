@@ -71,7 +71,7 @@ class APACHE_GEODE_EXPORT CacheableDate
   ~CacheableDate() noexcept override = default;
 
   void operator=(const CacheableDate& other) = delete;
-  CacheableDate(const CacheableDate& other) = delete;
+  CacheableDate(const CacheableDate& other);
 
   void toData(DataOutput& output) const override;
 
