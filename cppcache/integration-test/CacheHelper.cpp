@@ -269,6 +269,8 @@ CacheHelper::CacheHelper(const int,
   auto pp = configPtr;
   if (pp == nullptr) {
     pp = Properties::create();
+    pp->insert("log-level", "debug");
+    pp->insert("log-file", "c:/temp/testThinClientCacheables.log");
   }
 
   auto cacheFac = CacheFactory(pp);

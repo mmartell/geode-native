@@ -194,7 +194,7 @@ set_tests_properties(testDataOutput
 
 set_tests_properties(testOverflowPutGetSqLite 
     testThinClientAfterRegionLive
-    testThinClientCacheables
+    #testThinClientCacheables
     testThinClientCq
     testThinClientCqFailover
     testThinClientCqHAFailover

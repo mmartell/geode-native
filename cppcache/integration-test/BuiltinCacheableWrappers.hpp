@@ -1037,7 +1037,8 @@ class CacheableNullStringWrapper : public CacheableWrapper {
   // CacheableWrapper members
 
   void initRandomValue(int32_t) override {
-    m_cacheableObject = CacheableString::create(static_cast<char*>(nullptr));
+    //m_cacheableObject = CacheableString::create(static_cast<char*>(nullptr));
+    m_cacheableObject = nullptr;
   }
 
   uint32_t getCheckSum(const std::shared_ptr<Cacheable> object) const override {
@@ -1228,6 +1229,9 @@ class CacheableObjectArrayWrapper : public CacheableWrapper {
 void registerBuiltins(bool isRegisterFileName = false) {
   // Initialize the random number generator.
   srand(getpid() + static_cast<int>(time(nullptr)));
+
+  // Init the statics
+  //CacheableWrapperFactory::getKeyMap();
 
   // Register the builtin cacheable keys
   CacheableWrapperFactory::registerType(DSCode::CacheableBoolean,

@@ -50,9 +50,9 @@ class PhotosKey : public DataSerializable, public CacheableKey {
  public:
   PhotosKey() = default;
   explicit PhotosKey(std::shared_ptr<CacheableString> people,
-    std::shared_ptr<CacheableDate> start,
-    std::shared_ptr<CacheableDate> end)
-    : people_(people), rangeStart_(start), rangeEnd_(end) {}
+                     std::shared_ptr<CacheableDate> start,
+                     std::shared_ptr<CacheableDate> end)
+      : people_(people), rangeStart_(start), rangeEnd_(end) {}
   ~PhotosKey() override = default;
   void toData(DataOutput& output) const override;
   void fromData(DataInput& input) override;
