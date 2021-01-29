@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using Apache.Geode.Client;
+using apache.geode.client;
 using System;
 using System.Collections.Generic;
 
