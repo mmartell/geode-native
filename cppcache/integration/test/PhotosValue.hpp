@@ -24,55 +24,103 @@
  * @brief User class for testing the put functionality for object.
  */
 
-#include <string>
+//#include <string>
 
-#include <geode/CacheableString.hpp>
-#include <geode/DataSerializable.hpp>
+//#include <geode/CacheableString.hpp>
+//#include <geode/DataSerializable.hpp>
+
+#include "PhotosValue.hpp"
 
 namespace DataSerializableTest {
+  class PhotosKey : IDataSerializable, ICacheableKey {
+   public
+    List<CacheableString> people;
+   public
+    CacheableDate rangeStart;
+   public
+    CacheableDate rangeEnd;
 
-using apache::geode::client::CacheableString;
-using apache::geode::client::DataInput;
-using apache::geode::client::DataOutput;
-using apache::geode::client::DataSerializable;
+    // A default constructor is required for deserialization
+   public
+    PhotosKey() {}
 
-class Position : public DataSerializable {
- private:
-  int64_t volumeAverageOver20Days_;
-  std::string bondRating_;
-  double conversionRatio_;
-  std::string country_;
-  double valueGain_;
-  int64_t industry_;
-  int64_t issuer_;
-  double marketValue_;
-  double quantity_;
-  std::string securityId_;
-  std::string securityLinks_;
-  std::string securityType_;
-  int32_t sharesOutstanding_;
-  std::string underlyingSecurity_;
-  int64_t volatility_;
-  int32_t positionId_;
+   public
+    PhotosKey(List<CacheableString> names, CacheableDate start,
+              CacheableDate end) {
+      people = names;
+      rangeStart = start;
+      rangeEnd = end;
+    }
 
- public:
-  static int32_t count;
+   public
+    override string ToString() {
+      string result = "{";
+      for (int i = 0; i < people.Count; i++) {
+        result += people[i];
+        if (i < people.Count - 1) result += ", ";
+      }
+      result += "} from ";
+      return result + rangeStart.ToString() + " to " + rangeEnd.ToString();
+    }
 
-  Position();
-  explicit Position(std::string id, int32_t out);
-  ~Position() override = default;
-  void toData(DataOutput& output) const override;
-  void fromData(DataInput& input) override;
+   public
+    void ToData(DataOutput output) {
+      output.WriteObject(people);
+      output.WriteObject(rangeStart);
+      output.WriteObject(rangeEnd);
+    }
 
-  static void resetCounter() { count = 0; }
-  std::string getSecurityId() { return securityId_; }
-  int32_t getPOsitionId() { return positionId_; }
-  int32_t getSharesOutstanding() { return sharesOutstanding_; }
-  static std::shared_ptr<Serializable> createDeserializable() {
-    return std::make_shared<Position>();
+   public
+    void FromData(DataInput input) {
+      people = (List<CacheableString>)input.ReadObject();
+      rangeStart = (CacheableDate)input.ReadObject();
+      rangeEnd = (CacheableDate)input.ReadObject();
+    }
+
+   public
+    ulong ObjectSize {
+      get { return 0; }
+    }
+
+   public
+    bool Equals(ICacheableKey other) { return Equals((object)other); }
+
+   public
+    override bool Equals(object obj) {
+      if (this == obj) {
+        return true;
+      }
+
+      if (GetType() != obj.GetType()) {
+        return false;
+      }
+
+      PhotosKey otherKey = (PhotosKey)obj;
+      return (people == otherKey.people && rangeStart == otherKey.rangeStart &&
+              rangeEnd == otherKey.rangeEnd);
+    }
+
+   public
+    override int GetHashCode() {
+      int prime = 31;
+      int result = 1;
+      foreach (CacheableString cs in people) {
+        result = result * prime + cs.GetHashCode();
+      }
+
+      result = result * prime + rangeStart.GetHashCode();
+      result = result * prime + rangeEnd.GetHashCode();
+
+      Console.WriteLine(
+          "*** hashCode={0}, people={1}, rangeStart={2}, rangeEnd={3}", result,
+          people, rangeStart, rangeEnd);
+      return result;
+    }
+
+   public
+    static ISerializable CreateDeserializable() { return new PhotosKey(); }
   }
-};
-
+}  // namespace Apache.Geode.Examples.ClassAsKey
 }  // namespace DataSerializableTest
 
 #endif  // PHOTOSVALUE_H

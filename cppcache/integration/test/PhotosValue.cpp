@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using apache.geode.client;
-using System;
-using System.Collections.Generic;
 
-namespace Apache.Geode.Examples.ClassAsKey {
+#include "PhotosValue.hpp"
+
+namespace DataSerializableTest {
  public
   class PhotosKey : IDataSerializable, ICacheableKey {
    public
