@@ -17,6 +17,9 @@
 
 #include "PhotosValue.hpp"
 
+using apache::geode::client::CacheableString;
+
+
 namespace DataSerializableTest {
 
 void PhotoMetaData::toData(DataOutput output) {
@@ -37,17 +40,30 @@ void PhotoMetaData::fromData(DataInput input) {
   }
 }
 
-void PhotosValue::toData(
-    DataOutput output) {  // output.writeObject(photosMeta); }
+void PhotosValue::toData(DataOutput output) {
 
-  void fromData(DataInput input) {
-    // photosMeta = new List<PhotoMetaData>();
-    // var pmd = input.ReadObject() as IList<object>;
+  std::vector<std::shared_ptr<CacheableString>> cstr{
+      CacheableString::create("Taaa"), CacheableString::create("Tbbb"),
+      CacheableString::create("Tccc"), CacheableString::create("Tddd")};
+  cacheStrArray = CacheableStringArray::create(cstr);
+
+  std::vector<std::shared_ptr<CacheableString>> vec;
+  for (int i = 0; i < photosMeta.size(); i++) {
+    
+  }
+
+  output.writeObject(photosMeta);
+}
+
+  void PhotosValue::fromData(DataInput input) {
+    // photosMeta = new std::list<PhotoMetaData>();
+    // var pmd = input.readObject() as std::list<CacheableString>;
     // if (pmd != null) {
     //  foreach (var item in pmd) { photosMeta.Add((PhotoMetaData)item); }
     //}
-  }
 
-  // static ISerializable CreateDeserializable() { return new PhotosValue(); }
+    photosMeta =
+        std::dynamic_pointer_cast<std::list<PhotoMetaData>>(dataInput.readObject());
+  }
 
 }  // namespace DataSerializableTest

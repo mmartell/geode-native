@@ -39,7 +39,7 @@ using apache::geode::client::DataInput;
 using apache::geode::client::DataOutput;
 using apache::geode::client::DataSerializable;
 
-class PhotoMetaData : DataSerializable {
+class PhotoMetaData : public DataSerializable {
  public:
   PhotoMetaData() {}
   PhotoMetaData::PhotoMetaData(int id, char* thumb) {
@@ -57,9 +57,13 @@ class PhotoMetaData : DataSerializable {
 
   virtual void toData(DataOutput output);
   virtual void fromData(DataInput input);
+
+  static std::shared_ptr<Serializable> createDeserializable() {
+    return std::make_shared<PhotoMetaData>();
+  }
 };
 
-class PhotosValue : DataSerializable {
+class PhotosValue : public DataSerializable {
  public:
   std::list<PhotoMetaData> photosMeta;
 
@@ -69,6 +73,10 @@ class PhotosValue : DataSerializable {
 
   void toData(DataOutput output);
   void fromData(DataInput input);
+
+  static std::shared_ptr<Serializable> createDeserializable() {
+    return std::make_shared<PhotosValue>();
+  }
 };
 }  // namespace DataSerializableTest
 
