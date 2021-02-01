@@ -20,107 +20,56 @@
 #ifndef PHOTOSVALUE_H
 #define PHOTOSVALUE_H
 
-/*
- * @brief User class for testing the put functionality for object.
- */
+#include <chrono>
+#include <list>
 
-//#include <string>
-
-//#include <geode/CacheableString.hpp>
-//#include <geode/DataSerializable.hpp>
-
-#include "PhotosValue.hpp"
+#include <geode/CacheableDate.hpp>
+#include <geode/CacheableKey.hpp>
+#include <geode/CacheableString.hpp>
+#include <geode/DataInput.hpp>
+#include <geode/DataOutput.hpp>
+#include <geode/DataSerializable.hpp>
 
 namespace DataSerializableTest {
-  class PhotosKey : IDataSerializable, ICacheableKey {
-   public
-    List<CacheableString> people;
-   public
-    CacheableDate rangeStart;
-   public
-    CacheableDate rangeEnd;
 
-    // A default constructor is required for deserialization
-   public
-    PhotosKey() {}
+using apache::geode::client::CacheableDate;
+using apache::geode::client::CacheableKey;
+using apache::geode::client::CacheableString;
+using apache::geode::client::DataInput;
+using apache::geode::client::DataOutput;
+using apache::geode::client::DataSerializable;
 
-   public
-    PhotosKey(List<CacheableString> names, CacheableDate start,
-              CacheableDate end) {
-      people = names;
-      rangeStart = start;
-      rangeEnd = end;
+class PhotoMetaData : DataSerializable {
+ public:
+  PhotoMetaData() {}
+  PhotoMetaData::PhotoMetaData(int id, char* thumb) {
+    fullResId = id;
+    for (int i = 0; i < (int)(sizeof(thumb) - 1); i++) {
+      thumbnailImage[i] = thumb[i];
     }
-
-   public
-    override string ToString() {
-      string result = "{";
-      for (int i = 0; i < people.Count; i++) {
-        result += people[i];
-        if (i < people.Count - 1) result += ", ";
-      }
-      result += "} from ";
-      return result + rangeStart.ToString() + " to " + rangeEnd.ToString();
-    }
-
-   public
-    void ToData(DataOutput output) {
-      output.WriteObject(people);
-      output.WriteObject(rangeStart);
-      output.WriteObject(rangeEnd);
-    }
-
-   public
-    void FromData(DataInput input) {
-      people = (List<CacheableString>)input.ReadObject();
-      rangeStart = (CacheableDate)input.ReadObject();
-      rangeEnd = (CacheableDate)input.ReadObject();
-    }
-
-   public
-    ulong ObjectSize {
-      get { return 0; }
-    }
-
-   public
-    bool Equals(ICacheableKey other) { return Equals((object)other); }
-
-   public
-    override bool Equals(object obj) {
-      if (this == obj) {
-        return true;
-      }
-
-      if (GetType() != obj.GetType()) {
-        return false;
-      }
-
-      PhotosKey otherKey = (PhotosKey)obj;
-      return (people == otherKey.people && rangeStart == otherKey.rangeStart &&
-              rangeEnd == otherKey.rangeEnd);
-    }
-
-   public
-    override int GetHashCode() {
-      int prime = 31;
-      int result = 1;
-      foreach (CacheableString cs in people) {
-        result = result * prime + cs.GetHashCode();
-      }
-
-      result = result * prime + rangeStart.GetHashCode();
-      result = result * prime + rangeEnd.GetHashCode();
-
-      Console.WriteLine(
-          "*** hashCode={0}, people={1}, rangeStart={2}, rangeEnd={3}", result,
-          people, rangeStart, rangeEnd);
-      return result;
-    }
-
-   public
-    static ISerializable CreateDeserializable() { return new PhotosKey(); }
   }
-}  // namespace Apache.Geode.Examples.ClassAsKey
+
+  static const int THUMB_WIDTH = 32;
+  static const int THUMB_HEIGHT = 32;
+
+  int fullResId;
+  uint8_t thumbnailImage[THUMB_WIDTH * THUMB_HEIGHT];
+
+  virtual void toData(DataOutput output);
+  virtual void fromData(DataInput input);
+};
+
+class PhotosValue : DataSerializable {
+ public:
+  std::list<PhotoMetaData> photosMeta;
+
+  // A default constructor is required for deserialization
+  PhotosValue() {}
+  PhotosValue(std::list<PhotoMetaData> metaData) { photosMeta = metaData; }
+
+  void toData(DataOutput output);
+  void fromData(DataInput input);
+};
 }  // namespace DataSerializableTest
 
 #endif  // PHOTOSVALUE_H
