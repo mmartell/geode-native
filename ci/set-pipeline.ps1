@@ -37,44 +37,19 @@ Branch to build
     Does something. Have as many examples as you think useful.
 #>
 
-
-# $GFSH_PATH = ""
-# if (Get-Command gfsh -ErrorAction SilentlyContinue)
-# {
-#     $GFSH_PATH = "gfsh"
-# }
-# else
-# {
-#     if (-not (Test-Path env:GEODE_HOME))
-#     {
-#         Write-Host "Could not find gfsh.  Please set the GEODE_HOME path. e.g. "
-#         Write-Host "(Powershell) `$env:GEODE_HOME = <path to Geode>"
-#         Write-Host " OR"
-#         Write-Host "(Command-line) set %GEODE_HOME% = <path to Geode>"
-#     }
-#     else
-#     {
-#         $GFSH_PATH = "$env:GEODE_HOME\bin\gfsh.bat"
-#     }
-# }
-
-# if ($GFSH_PATH -ne "")
-# {
-#    $expression = "$GFSH_PATH " + `
-# 	     "-e 'start locator --name=locator --dir=$PSScriptRoot\locator' " + `
-# 	     "-e 'deploy --jar=$PSScriptRoot/../../utilities/example.jar' " + `
-# 		 "-e 'start server --name=server --dir=$PSScriptRoot\server' " + `
-#          "-e 'create region --name=photosMetaData --type=PARTITION' " + `
-# 		 "-e 'execute function --id=InstantiateDataSerializable --member=server'";
-#    Invoke-Expression $expression
-# }
-
-### Parameters (override defaults by passing in, e.g. -branch=)
-
 param (
+	[string]$target = "default",
 	[string]$branch = (git rev-parse --abbrev-ref HEAD),
-	[string]$pipeline = "Based on repository owner name and branch"
-	#[string]$github-owner = "Current tracking branch repository owner"
+	[string]${github-owner} = (Get-Owner),
+	[string]$pipeline = (write-host (${github-owner} + "-" + $branch)),
+	[string]${github-repository} = (Get-Repository),
+	[string]${google-zone} = "",
+	[string]${google-project} = (gcloud config get-value project),
+	[string]${google-storage-bucket} = "",
+	[string]${google-storage-key} = "",
+	[string]$fly = "",
+	[string]$ytt = "",
+	[string]$variants = ""
 )
 
 function printHelp() {
@@ -112,11 +87,66 @@ function printHelp() {
 # 	write-output "here's arg 0: $($args[0])"
 #   }
 
-$git_tracking_branch=(git for-each-ref --format='%(upstream:short)' (git symbolic-ref -q HEAD))
-write-output "git_tracking_branch = " $git_tracking_branch
+function Get-Owner {
+	$git_tracking_branch=(git for-each-ref --format='%(upstream:short)' (git symbolic-ref -q HEAD))
+	$git_remote = $git_tracking_branch.split("/")[0]
+	$git_repository_url=(git remote get-url $git_remote)
+	$git_repository_url -match '^((https|git)(:\/\/|@)github\.com[\/:])(?<owner>[^\/:]+)\/(?<repo>.+)$'
+	$github_owner = $Matches["owner"]
+	return $github_owner
+}
 
-#git_remote=${git_remote:-$(echo ${git_tracking_branch} | cut -d/ -f1)}
-#git_repository_url=${git_repository_url:-$(git remote get-url ${git_remote})}
+function Get-Repo {
+	$git_tracking_branch=(git for-each-ref --format='%(upstream:short)' (git symbolic-ref -q HEAD))
+	$git_remote = $git_tracking_branch.split("/")[0]
+	$git_repository_url=(git remote get-url $git_remote)
+	$git_repository_url -match '^((https|git)(:\/\/|@)github\.com[\/:])(?<owner>[^\/:]+)\/(?<repo>.+)$'
+	$github_repository = $Matches["repo"]
+	return $github_repository
+}
+
+function Get-ParamOrEnv {
+    param (
+        $ParameterName
+    )
+
+	# Passed in arguments override environment variables
+	if ($PSBoundParameters.ContainsKey($ParameterName)) {
+		return $ParameterName
+	}
+
+	# Environment variables override default values
+	$paramEnv = [Environment]::GetEnvironmentVariable($ParameterName)	
+	if ($paramEnv -ne "" -and $null -ne $paramEnv ) {
+		return $paramEnv
+	}
+
+	# Script param functionality sets default values
+	return $ParameterName
+}
+
+# Process environment variables and parameters
+
+$target = Get-ParamOrEnv("target")
+$branch = Get-ParamOrEnv("branch")
+$pipeline = Get-ParamOrEnv("pipeline")
+${github-owner} = Get-ParamOrEnv("github-owner")
+${github-repository} = Get-ParamOrEnv("github-repository")
+${google-zone} = Get-ParamOrEnv("google-zone")
+${google-project} = Get-ParamOrEnv("google-project")
+${google-storage-bucket} = Get-ParamOrEnv("google-storage-bucket")
+${google-storage-key} = Get-ParamOrEnv("google-storage-key")
+$fly = Get-ParamOrEnv("fly")
+$ytt = Get-ParamOrEnv("ytt")
+$variants = Get-ParamOrEnv("variants")
+
+$git_tracking_branch=(git for-each-ref --format='%(upstream:short)' (git symbolic-ref -q HEAD))
+$git_remote = $git_tracking_branch.split("/")[0]
+$git_repository_url=(git remote get-url $git_remote)
+$git_repository_url -match '^((https|git)(:\/\/|@)github\.com[\/:])(?<owner>[^\/:]+)\/(?<repo>.+)$'
+$github_owner = $Matches["owner"]
+$github_repository = $Matches["repo"]
+
 
 while ($Args.Count -gt 0 ) {
   if ($Args[0] -eq "--help") {
