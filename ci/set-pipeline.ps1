@@ -16,6 +16,12 @@
 
 #set -euo pipefail
 
+# 1) Invoke command with params
+# 2) Process command line params with defaults (Param block)
+# 3) Merge in any environment variables and any computed defaults that
+# 4) 	couldn't be handled in Param blcok
+# 5) Render the yaml
+# 6) Deploty the rendered pipeline via fly command
 <#
 .SYNOPSIS
 
@@ -25,7 +31,7 @@ Sets Concourse pipelines for Geode Native builds.
 
 A longer description of your script.
 
-.PARAMETER --target
+.PARAMETER target
 Fly target
 
 .PARAMETER branch
@@ -37,30 +43,33 @@ Branch to build
     Does something. Have as many examples as you think useful.
 #>
 
-param (
-	[string]$target = "default",
-	[string]$branch = (git rev-parse --abbrev-ref HEAD),
-	[string]${github-owner} = (Get-Owner),
-	[string]$pipeline = (write-host (${github-owner} + "-" + $branch)),
-	[string]${github-repository} = (Get-Repository),
-	[string]${google-zone} = "",
-	[string]${google-project} = (gcloud config get-value project),
-	[string]${google-storage-bucket} = "",
-	[string]${google-storage-key} = "",
-	[string]$fly = "",
-	[string]$ytt = "",
-	[string]$variants = ""
-)
+#param (
+#	[string]${target},
+#	[string]$branch,
+#	[string]$pipeline,
+#	[string]${github-owner},
+#	[string]${github-repository},	
+#	[string]${google-zone},
+#	[string]${google-project},
+#	[string]${google-storage-bucket},
+#	[string]${google-storage-key},
+#	[string]$fly,
+#	[string]$ytt,
+#	[string]$variants
+#)
 
-function printHelp() {
-# $0 Usage:
-# $myInvocation.ScriptName
+function printAll {
+	Write-Output github-repository
+	Write-Output pipeline
+}
+
+function printHelp {
 	Write-Output "Sets Concourse pipelines for Geode Native builds."
 	Write-Output ""
 	Write-Output "Options:"
 	Write-Output "Parameter                Description                         Default"
-	Write-Output "--target                 Fly target.                         "default""
-# --branch                 Branch to build.                    Current checked out branch.
+	Write-Output '-target                  Fly target.                         "default"'
+	Write-Output '-branch                  Branch to build.                    Current checked out branch.'
 # --pipeline               Name of pipeline to set.            Based on repository owner name and branch.
 # --github-owner           GitHub owner for repository.        Current tracking branch repository owner.
 # --github-repository      GitHub repository name.             Current tracking branch repository name.
@@ -83,140 +92,153 @@ function printHelp() {
 # # \$ target=my-target google_zone=my-zone $0
 }
 
-#   if ($Args[0] -eq "--help") {
-# 	write-output "here's arg 0: $($args[0])"
-#   }
-
 function Get-Owner {
+	#write-output 'Entered Get-Owner'
 	$git_tracking_branch=(git for-each-ref --format='%(upstream:short)' (git symbolic-ref -q HEAD))
 	$git_remote = $git_tracking_branch.split("/")[0]
 	$git_repository_url=(git remote get-url $git_remote)
-	$git_repository_url -match '^((https|git)(:\/\/|@)github\.com[\/:])(?<owner>[^\/:]+)\/(?<repo>.+)$'
-	$github_owner = $Matches["owner"]
-	return $github_owner
+	if ($git_repository_url -match '^((https|git)(:\/\/|@)github\.com[\/:])(?<owner>[^\/:]+)\/(?<repo>.+)$') {
+		return $Matches["owner"]
+	}
 }
 
-function Get-Repo {
+function Get-Repository {
 	$git_tracking_branch=(git for-each-ref --format='%(upstream:short)' (git symbolic-ref -q HEAD))
 	$git_remote = $git_tracking_branch.split("/")[0]
 	$git_repository_url=(git remote get-url $git_remote)
-	$git_repository_url -match '^((https|git)(:\/\/|@)github\.com[\/:])(?<owner>[^\/:]+)\/(?<repo>.+)$'
-	$github_repository = $Matches["repo"]
-	return $github_repository
+	if ($git_repository_url -match '^((https|git)(:\/\/|@)github\.com[\/:])(?<owner>[^\/:]+)\/(?<repo>.+)$') {
+		return $Matches["repo"]
+	}
 }
 
-function Get-ParamOrEnv {
-    param (
-        $ParameterName
-    )
+function Initialize-Param ( $paramKey ) {
 
-	# Passed in arguments override environment variables
-	if ($PSBoundParameters.ContainsKey($ParameterName)) {
-		return $ParameterName
+	#write-output ('*** In Initialize-Param, $paramKey = ' + $paramKey)
+
+	# Fetch any values set on the command line
+
+	if ($PSBoundParameters.ContainsKey($paramKey)) {
+		return $PSBoundParameters[$paramKey]
 	}
+	else {
 
-	# Environment variables override default values
-	$paramEnv = [Environment]::GetEnvironmentVariable($ParameterName)	
-	if ($paramEnv -ne "" -and $null -ne $paramEnv ) {
-		return $paramEnv
+		# Initialize via environment variable if set
+
+		$paramEnv = [Environment]::GetEnvironmentVariable($paramKey)	
+		if ($null -ne $paramEnv ) {
+			write-output ('*** In Initialize-Param, setting ' + $paramKey + ' via environment variable = ' + $paramKey)
+			return $paramEnv
+		}
+
+		# Initialize via defaults. Note: There are dependencies here so do not reorder.
+
+		elseif ($paramKey -eq "target") {
+			return "default"
+		}
+		elseif ($paramKey -eq "branch") {
+			return (git rev-parse --abbrev-ref HEAD)
+		}
+		elseif ($paramKey -eq "github-owner") {
+			return Get-Owner
+		}
+		elseif ($paramKey -eq "github-repository") {
+			return Get-Repository
+		}
+		elseif ($paramKey -eq "pipeline") {
+			return (${github-owner} + "-" + $branch)
+		}
+		elseif ($paramKey -eq "google-project") {
+			return (gcloud config get-value project)
+		}
+		elseif ($paramKey -eq "google-zone") {
+			return "us-central1-a"
+		}
+		elseif ($paramKey -eq "google-storage-bucket") {
+			return (${google-project} + "-concourse")
+		}
+		elseif ($paramKey -eq "google-storage-key") {
+			return "geode-native/" + $pipeline
+		}
+		elseif ($paramKey -eq "fly") {
+			return "fly"
+		}
+		elseif ($paramKey -eq "ytt") {
+			return "ytt"
+		}
+		elseif ($paramKey -eq "variants") {
+			return "release pr"
+		}
+		elseif ($paramKey -eq "output") {
+			return (New-TemporaryFile | ForEach-Object{ Remove-Item $_; mkdir $_ }) 
+		}
+		else {
+			Write-Output ("****** Error: Invalid parameter " + $paramKey)
+		}
 	}
-
-	# Script param functionality sets default values
-	return $ParameterName
 }
 
-# Process environment variables and parameters
+$target = Initialize-Param "target"
+Write-Output ("target = " + $target)
 
-$target = Get-ParamOrEnv("target")
-$branch = Get-ParamOrEnv("branch")
-$pipeline = Get-ParamOrEnv("pipeline")
-${github-owner} = Get-ParamOrEnv("github-owner")
-${github-repository} = Get-ParamOrEnv("github-repository")
-${google-zone} = Get-ParamOrEnv("google-zone")
-${google-project} = Get-ParamOrEnv("google-project")
-${google-storage-bucket} = Get-ParamOrEnv("google-storage-bucket")
-${google-storage-key} = Get-ParamOrEnv("google-storage-key")
-$fly = Get-ParamOrEnv("fly")
-$ytt = Get-ParamOrEnv("ytt")
-$variants = Get-ParamOrEnv("variants")
+$branch = Initialize-Param "branch"
+Write-Output ("branch = " + $branch)
 
-$git_tracking_branch=(git for-each-ref --format='%(upstream:short)' (git symbolic-ref -q HEAD))
-$git_remote = $git_tracking_branch.split("/")[0]
-$git_repository_url=(git remote get-url $git_remote)
-$git_repository_url -match '^((https|git)(:\/\/|@)github\.com[\/:])(?<owner>[^\/:]+)\/(?<repo>.+)$'
-$github_owner = $Matches["owner"]
-$github_repository = $Matches["repo"]
+${github-owner} = Initialize-Param "github-owner"
+Write-Output ("github-owner = " + ${github-owner})
 
+${github-repository} = Initialize-Param "github-repository"
+Write-Output ("github-repository = " +${github-repository})
 
-while ($Args.Count -gt 0 ) {
-  if ($Args[0] -eq "--help") {
-	write-output "here's arg 0: $($args[0])"
+$pipeline = Initialize-Param "pipeline"
+Write-Output ("pipeline = " + $pipeline)
 
+${google-zone} = Initialize-Param "google-zone"
+Write-Output ("google-zone = " + ${google-zone})
+
+${google-project} = Initialize-Param "google-project"
+Write-Output ("google-project = " + ${google-project})
+
+${google-storage-bucket} = Initialize-Param "google-storage-bucket"
+Write-Output ("google-storage-bucket = " + ${google-storage-bucket})
+
+${google-storage-key} = Initialize-Param "google-storage-key"
+Write-Output ("google-storage-key = " + ${google-storage-key})
+
+$fly = Initialize-Param "fly"
+Write-Output ("fly = " + $fly)
+
+$ytt = Initialize-Param "ytt"
+Write-Output ("ytt = " + $ytt)
+
+$variants = Initialize-Param "variants"
+Write-Output ("variants = " + $variants)
+
+$output = Initialize-Param "output"
+Write-Output ("output = " + $output)
+
+if ($Args[0] -eq "-help") {
     printHelp;
-#     exit 0;
-#   elif [[ $1 == *"--"*"="* ]]; then
-#     param="${1%%=*}"
-#     param="${param#--}"
-#     declare ${param//[^[:word:]]/_}="${1#--*=}"
-#   elif [[ $1 == *"--"* ]]; then
-#     param="${1/--/}"
-#     declare ${param//[^[:word:]]/_}="${2}"
-#     shift
-#   fi
-  }
 }
 
-<#
-ytt=${ytt:-ytt}
-fly=${fly:-fly}
-
-target=${target:-default}
-output=${output:-$(mktemp -d)}
-
-branch=${branch:-$(git rev-parse --abbrev-ref HEAD)}
-git_tracking_branch=${git_tracking_branch:-$(git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD))}
-git_remote=${git_remote:-$(echo ${git_tracking_branch} | cut -d/ -f1)}
-git_repository_url=${git_repository_url:-$(git remote get-url ${git_remote})}
-
-if [[ ${git_repository_url} =~ ^((https|git)(:\/\/|@)github\.com[\/:])([^\/:]+)\/(.+).git$ ]]; then
-  github_owner=${github_owner:-${BASH_REMATCH[4]}}
-  github_repository=${github_repository:-${BASH_REMATCH[5]}}
-fi
-
-pipeline=${pipeline:-${github_owner}-${branch}}
-pipeline=${pipeline//[^[:word:]-]/-}
-
-google_project=${google_project:-$(gcloud config get-value project)}
-google_zone=${google_zone:-'$(curl "http://metadata.google.internal/computeMetadata/v1/instance/zone" -H "Metadata-Flavor: Google" -s | cut -d / -f 4)'}
-google_storage_bucket=${google_storage_bucket:-${google_project}-concourse}
-google_storage_key=${google_storage_key:-geode-native/${pipeline}}
-
-variants=${variants:-"release pr"}
-variants_release=${variant_release:-""}
-
-for variant in ${variants}; do
-  eval pipeline_suffix=\${variants_${variant}-"-${variant}"}
-
-  bash -c "${ytt} \"\$@\"" ytt \
-    --file lib \
-    --file base \
-    --file ${variant} \
-    --data-value "pipeline.name=${pipeline}" \
-    --data-value "pipeline.variant=${variant}" \
-    --data-value "repository.branch=${branch}" \
-    --data-value "github.owner=${github_owner}" \
-    --data-value "github.repository=${github_repository}" \
-    --data-value "google.project=${google_project}" \
-    --data-value "google.zone=${google_zone}" \
-    --data-value "google.storage.bucket=${google_storage_bucket}" \
-    --data-value "google.storage.key=${google_storage_key}" \
-    > "${output}/${variant}.yml"
-
-
-  bash -c "${fly} \"\$@\"" fly --target=${target} \
-    set-pipeline \
-      "--pipeline=${pipeline}${pipeline_suffix}" \
-      "--config=${output}/${variant}.yml"
-
-done
-#>
+foreach ($varint in $variants) {
+	$pipeline_suffix = "-" + $variant
+	& $ytt `
+		--file lib `
+		--file base `
+		--file ${variant} `
+		--data-value "pipeline.name=$pipeline" `
+		--data-value "pipeline.variant=${variant}" `
+		--data-value "repository.branch=${branch}" `
+		--data-value "github.owner=${github-owner}" `
+		--data-value "github.repository=${github-repository}" `
+		--data-value "google.project=${google-project}" `
+		--data-value "google.zone=${google-zone}" `
+		--data-value "google.storage.bucket=${google-storage-bucket}" `
+		--data-value "google.storage.key=${google-storage-key}"
+		> "$output/${variant}.yml"
+	& $fly `
+		--target=$target `
+		set-pipeline `
+			"--pipeline=" + $pipeline + $pipeline_suffix `
+			"--config=" + $output + "/" + $variant + ".yml"
+}
