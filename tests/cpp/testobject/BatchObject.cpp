@@ -21,6 +21,7 @@ using namespace apache::geode::client;
 using namespace testframework;
 using namespace testobject;
 
+
 BatchObject::BatchObject(int32_t anIndex, int32_t batchSize, int32_t size) {
   index = anIndex;
   ACE_Time_Value startTime;
