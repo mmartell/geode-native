@@ -82,7 +82,53 @@ END_TASK_DEFINITION
 DUNIT_MAIN
   {
     CALL_TASK(CreateLocator1);
+    // start locator
+    //    --name=GFELOC14595
+    //    --port=14595 
+    //    --dir=C:\geode-native\build\cppcache\integration-test\.tests\testThinClientDisconnectionListioner\GFELOC14595 
+    //    --classpath=C:\geode-native\build\tests\javaobject\javaobject.jar 
+    //    --http-service-port=0 
+    //    --J=-Dgemfire.jmx-manager-port=28465 
+    //    --max-heap=256m 
+    //    --properties-file=C:\geode-native\build\cppcache\integration-test\.tests\testThinClientDisconnectionListioner\GFELOC14595/test.geode.properties
     CALL_TASK(SetupClient1_Pool_Locator);
+    //36: [config 2021/03/09 09:57:29.820759 Pacific Standard Time  :30376 23492] Geode Native Client System Properties:
+36: //  archive-disk-space-limit = 0
+36: //  archive-file-size-limit = 0
+36: //  auto-ready-for-events = true
+36: //  bucket-wait-timeout = 0ms
+36: //  cache-xml-file = 
+36: //  conflate-events = server
+36: //  connect-timeout = 59000ms
+36: //  connection-pool-size = 5
+36: //  connect-wait-timeout = 0ms
+36: //  enable-chunk-handler-thread = false
+36: //  disable-shuffling-of-endpoints = false
+36: //  durable-client-id = 
+36: //  durable-timeout = 300s
+36: //  enable-time-statistics = false
+36: //  heap-lru-delta = 10
+36: //  heap-lru-limit = 0
+36: //  log-disk-space-limit = 0
+36: //  log-file = 
+36: //  log-file-size-limit = 0
+36: //  log-level = config
+36: //  max-fe-threads = 32
+36: //  max-socket-buffer-size = 66560
+36: //  notify-ack-interval = 1000ms
+36: //  notify-dupcheck-life = 300000ms
+36: //  on-client-disconnect-clear-pdxType-Ids = false
+36: //  ping-interval = 10s
+36: //  redundancy-monitor-interval = 10s
+36: //  security-client-kspath = 
+36: //  ssl-enabled = false
+36: //  ssl-keystore = 
+36: //  ssl-truststore = 
+36: //  statistic-archive-file = statArchive.gfs
+36: //  statistic-sampling-enabled = false
+36: //  statistic-sample-rate = 1000ms
+36: //  suspended-tx-timeout = 30s
+36: //  tombstone-timeout = 480000ms
     CALL_TASK(Verify);
     CALL_TASK(CreateServer1_With_Locator_XML);
     CALL_TASK(populateServer);
