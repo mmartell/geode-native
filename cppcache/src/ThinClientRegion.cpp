@@ -1258,6 +1258,10 @@ GfErrType ThinClientRegion::singleHopPutAllNoThrow_remote(
   auto locationMap = tcrdm->getClientMetaDataService()->getServerToFilterMap(
       userKeys, region, true);
   if (!locationMap) {
+    //// Fetch metadata for future operations
+    // tcrdm->getClientMetaDataService()->enqueueForMetadataRefresh(
+    //    region->getFullPath(), 0);
+
     // putAll with multiple hop implementation
     LOGDEBUG("locationMap is Null or Empty");
 
