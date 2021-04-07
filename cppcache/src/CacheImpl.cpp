@@ -448,8 +448,8 @@ void CacheImpl::createRegion(std::string name,
         if (auto clientMetaDataService = poolDM->getClientMetaDataService()) {
           LOGFINE("enqueued region " + name +
                   " for initial metadata refresh for singlehop ");
-          poolDM->getClientMetaDataService()->enqueueForMetadataRefresh(
-              regionPtr->getFullPath(), 0);
+          // poolDM->getClientMetaDataService()->enqueueForMetadataRefresh(
+          //    regionPtr->getFullPath(), 0);
         }
       }
     }
